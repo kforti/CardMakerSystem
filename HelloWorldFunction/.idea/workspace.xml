@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1b689a90-2f19-4e10-9858-85dd489c8082" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/libraries/Maven__com_amazonaws_aws_lambda_java_core_1_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/handlers/CreateCardHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/models/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/models/Element.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/models/Page.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/Function/helloworld/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/.aws-sam/build/Function/helloworld/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/Function/helloworld/GatewayResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/.aws-sam/build/Function/helloworld/GatewayResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/Function/lib/aws-lambda-java-core-1.2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/.aws-sam/build/Function/lib/aws-lambda-java-core-1.2.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/template.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/.aws-sam/build/template.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HelloWorld.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/LambdaFunctions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helloworld/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/handlers/GetCardsHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helloworld/GatewayResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/src/main/java/models/GatewayResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/helloworld/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LambdaFunctions/src/test/java/handlers/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cms_frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../cms_frontend/index.html" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1Sqo7gbGZb7jVQ1a81Wz1xpQP2p" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../LambdaFunctions" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="getcards" />
+      <recent name="createcard" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1b689a90-2f19-4e10-9858-85dd489c8082" name="Default Changelist" comment="" />
+      <created>1572300320704</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1572300320704</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

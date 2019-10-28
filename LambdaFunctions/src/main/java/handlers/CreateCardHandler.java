@@ -1,20 +1,21 @@
-package helloworld;
+package handlers;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import models.GatewayResponse;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
-
 /**
  * Handler for requests to Lambda function.
  */
-public class App implements RequestHandler<Object, Object> {
+public class CreateCardHandler implements RequestHandler<Object, Object> {
 
     public Object handleRequest(final Object input, final Context context) {
         Map<String, String> headers = new HashMap<>();
