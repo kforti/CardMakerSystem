@@ -25,4 +25,29 @@ public class Card {
 	public String toGson() {
 		return "nah";
 	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	
+	// Getters //
+	public int getCardID() {
+		return cardId;
+	}
+	
+	public String getEventType() {
+		return eventType;
+	}
+	
+	public String getRecipient() {
+		return recipient;
+	}
+	
+	public String getOrientation() {
+		return orientation;
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	
+	
 }
