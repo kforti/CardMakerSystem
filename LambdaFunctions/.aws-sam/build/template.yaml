@@ -2,7 +2,7 @@ Resources:
   Function:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: handlers.DeleteCardHandler::handleRequest
+      Handler: handlers.GetCardsHandler::handleRequest
       CodeUri: Function
       Runtime: java8
       Timeout: 300
