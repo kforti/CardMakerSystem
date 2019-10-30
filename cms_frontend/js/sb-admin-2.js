@@ -47,3 +47,7 @@
   });
 
 })(jQuery); // End of use strict
+
+$('#dataTable tbody tr').click(function() {
+  $(this).addClass('bg-success').siblings().removeClass('bg-success');
+});
