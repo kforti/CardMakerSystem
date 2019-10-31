@@ -10,13 +10,13 @@ public class DatabaseConnect
 	// once you retrieve this code, you can update
 	public final static String rdsMySqlDatabaseUrl = "database-2.cpwe1rxpzibp.us-east-2.rds.amazonaws.com";
 	public final static String dbUsername = "admin_republic";
-	public final static String dbPassword = "";
+	public final static String dbPassword = ""; //add in the password
 		
 	public final static String jdbcTag = "jdbc:mysql://";
 	public final static String rdsMySqlDatabasePort = "3306";
 	public final static String multiQueries = "?allowMultiQueries=true";
 	   
-	public final static String dbName = "innodb";    // default created from MySQL WorkBench
+	public final static String dbName = "card_maker_system";    // default created from MySQL WorkBench
 
 	// pooled across all usages.
 	static Connection conn;
