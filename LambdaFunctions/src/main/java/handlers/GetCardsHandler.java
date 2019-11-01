@@ -26,6 +26,7 @@ public class GetCardsHandler implements RequestHandler<Object, Object> {
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
             
             // change this to JSON
+
             String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
             
             return new GatewayResponse(output, headers, 200);

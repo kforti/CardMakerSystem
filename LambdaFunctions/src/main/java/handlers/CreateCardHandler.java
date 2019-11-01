@@ -23,6 +23,8 @@ public class CreateCardHandler implements RequestHandler<Object, Object> {
         headers.put("X-Custom-Header", "application/json");
         try {
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
+            // Implement body here
+
             String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
             return new GatewayResponse(output, headers, 200);
         } catch (IOException e) {
