@@ -26,6 +26,7 @@ public class GetCardsHandler implements RequestHandler<Object, Object> {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("X-Custom-Header", "application/json");
+        headers.put("Access-Control-Allow-Origin", "*");
 
     	// get all cards stored in database using DAO
     	CardsDAO dao = new CardsDAO();
@@ -35,9 +36,8 @@ public class GetCardsHandler implements RequestHandler<Object, Object> {
 			String json = gson.toJson(cards);
 			
 			// return response containing all cards
-            final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            // change this to JSON
-            String output = String.format("{ \"message\": \"%s\", \"location\": \"%s\" }", json, pageContents);
+            //final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
+
             return new GatewayResponse(json, headers, 200);
     	} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -24,18 +24,23 @@ public class CardsDAO
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public boolean addCard(Card card) throws Exception
+    public int addCard(Card card) throws Exception
     {
+    	int card_id = 0;
     	try {
 	    	PreparedStatement ps = connection.prepareStatement("INSERT INTO cards (event_type, recipient, orientation)"
-					+ " values(?,?,?);");
+					+ " values(?,?,?);", Statement.RETURN_GENERATED_KEYS);
 	    	ps.setString(1,  card.getEventType());
 	    	ps.setString(2,  card.getRecipient());
 			ps.setString(3, card.getOrientation());
-			ps.execute();
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				card_id = rs.getInt(1);
+			}
 			ps.close();
-			
-			return true;
+
+			return card_id;
 			
 	    } catch (Exception e){
 			throw new Exception("Failed to insert card: " + e.getMessage());
@@ -62,24 +67,31 @@ public class CardsDAO
     public List<Card> getAllCards() throws Exception
     {
     	List<Card> cards = new ArrayList<>();
+		Statement statement;
+		ResultSet resultSet;
     	 try{
-    		 Statement statement = connection.createStatement();
+    		 statement = connection.createStatement();
+		 } catch (Exception e){
+			 throw new Exception("Failed in connecting to DB: " + e.getMessage());
+		 }
+    	 try{
              String query = "SELECT * FROM cards";
-             ResultSet resultSet = statement.executeQuery(query);
+             resultSet = statement.executeQuery(query);
+		 } catch (Exception e){
+			 throw new Exception("Failed in Cards query: " + e.getMessage());
+		 }
              
-             while (resultSet.next())
-             {
-                 Card card = generateCard(resultSet);
-                 cards.add(card);
-             }
-           
-             resultSet.close();
-             statement.close();
-             return cards;
+		 while (resultSet.next())
+		 {
+			 Card card = generateCard(resultSet);
+			 cards.add(card);
+		 }
+
+		 resultSet.close();
+		 statement.close();
+		 return cards;
              
-         } catch (Exception e){
-             throw new Exception("Failed in getting Schedules: " + e.getMessage());
-         }
+
     }
     
     

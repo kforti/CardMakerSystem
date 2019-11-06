@@ -2,6 +2,7 @@ package accessDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+//import com.mysql.jdbc.Driver;
 
 public class DatabaseConnect
 {
@@ -10,7 +11,7 @@ public class DatabaseConnect
 	// once you retrieve this code, you can update
 	public final static String rdsMySqlDatabaseUrl = "database-2.cpwe1rxpzibp.us-east-2.rds.amazonaws.com";
 	public final static String dbUsername = "admin_republic";
-	public final static String dbPassword = ""; //add in the password
+	public final static String dbPassword = "republic123"; //add in the password
 		
 	public final static String jdbcTag = "jdbc:mysql://";
 	public final static String rdsMySqlDatabasePort = "3306";
@@ -31,10 +32,9 @@ public class DatabaseConnect
 		try
 		{
 			//System.out.println("start connecting......");
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(
-					jdbcTag + rdsMySqlDatabaseUrl + ":" + rdsMySqlDatabasePort + "/" + dbName + multiQueries,
-					dbUsername,
+					jdbcTag + rdsMySqlDatabaseUrl + ":" + rdsMySqlDatabasePort + "/" + dbName, dbUsername,
 					dbPassword);
 			//System.out.println("Database has been connected successfully.");
 			return conn;
