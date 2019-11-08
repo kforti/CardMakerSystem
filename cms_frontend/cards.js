@@ -1,45 +1,26 @@
-const BASE_URL = "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta";
 
-async function getCards() {
-    const config = {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        }
-    var data;
-    try {     
-        const response = await fetch(BASE_URL + "/cards", config)
-        const json = await response.json();
-        data = JSON.parse(json.body);
-        console.log(data);
-    } catch(err) {
-        console.error(`Error: ${err}`);
-    }
+/// Cards Page Component
+function cardPage() {
 
-    for (var i = 0; i < data.length; i++) {
-        var card = new Card(data[i]["cardId"],
-                data[i]["eventType"],
-                data[i]["recipient"],
-                data[i]["orientation"]);
-        card.render(card);
+    this.renderTable = renderCardTable;
+    this.cards = getCards();
+    
+}
 
-    }
-
+function renderCardTable() {
+    var html = $('data-table-component')
 }
 
 async function handleRefreshCards(){
     var new_tbody = document.createElement('tbody');
     new_tbody.setAttribute("id", "data-table-body")
-    var old_tbody = document.getElementById('data-table-body');
+    var old_tbody = $('data-table-body');
     old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
     await getCards();
 }
 
 async function handleDeleteCard() {
-    const dataTable = document.getElementById('data-table-body');
+    const dataTable = $('data-table-body');
     var rows = dataTable.children;
     var cards = [];
     for (var i = 0; i < rows.length; i++) {
@@ -64,10 +45,10 @@ async function handleDeleteCard() {
 }
 
 async function handleCreateCard() {
-    var recipient = document.getElementById("recipient-field").value;
-    var event = document.getElementById("event-field").value;
-    var portrait = document.getElementById("portrait-option");
-    var landscape = document.getElementById("landscape-option");
+    var recipient = $("recipient-field").value;
+    var event = $("event-field").value;
+    var portrait = $("portrait-option");
+    var landscape = $("landscape-option");
     var orientation;
     if(landscape.checked){
         orientation = "landscape";
@@ -75,41 +56,9 @@ async function handleCreateCard() {
     else if(portrait.checked) {
         orientation = "portrait";
     }
-    console.log(recipient);
-    console.log(event);
-    console.log(orientation);
-    const config = {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-            {
-            "recipient":recipient,
-            "eventType":event,
-            "orientation":orientation
-        }
-        )
-        }
-        var data;
-        try {     
-            const response = await fetch(BASE_URL + "/card", config)
-            console.log(response);
-            data = await response.json();
-            // console.log(json);
-            // data = JSON.parse(json.body);
-            //console.log('Completed!', data);
-            var card = new Card(data["cardId"],
-                data["eventType"],
-                data["recipient"],
-                data["orientation"]);
-            card.render();
-        } catch(err) {
-            console.error(`Error: ${err}`);
-        }
-        
+
+    var card = await createCard(recipient, event, orientation);
+    
 }
 
 ////// Card
@@ -124,7 +73,7 @@ function Card(id, event, recipient, orientation) {
 }
 
 function renderCard() {
-    const dataTable = document.getElementById('data-table-body');
+    const dataTable = $('data-table-body');
 
     var row = dataTable.insertRow(0);
     var cell0 = row.insertCell(0);
@@ -148,41 +97,8 @@ function renderCard() {
 }
 
 function cardSelector() {
-    var delete_button = document.getElementById("delete-card-button")
+    var delete_button = $("delete-card-button")
     delete_button.disabled = false;
     delete_button.addEventListener("click", handleDeleteCard)
 
 }
-
-async function deleteCard(card) {
-    const config = {
-        method: 'DELETE',
-        mode: 'cors',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            "cardId": parseInt(card.id),
-            "recipient": card.recipient,
-            "eventType": card.event,
-            "orientation": card.orientation
-        })
-        }
-        var data;
-        try {     
-            const response = await fetch(BASE_URL + "/card", config)
-            data = await response.json();
-            
-        } catch(err) {
-            console.error(`Error: ${err}`);
-        }
-        return data;
-    }
-
-//var card = new Card("9999", "birthday", "bill", "portrait");
-// var card2 = new Card("0001", "birthday", "bill", "portrait");
-//card.render(card);
-// card2.render(card2);
-
-getCards()
