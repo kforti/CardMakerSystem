@@ -13,9 +13,11 @@ public class Element {
     int height;
     int width;
 
+	///////////////////////////////////////////////////////////////////////////////////////
+	// Constructors //
     
     //Constructor for create element handler
-    public void Element(int card_id, String page_type, String element_type, String text_message,
+    public Element(int card_id, String page_type, String element_type, String text_message,
             String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
 		this.card_id = card_id;
 		this.page_type = page_type;
@@ -30,7 +32,7 @@ public class Element {
 	}
 
 	//Constructor for update element handler
-    public void Element(int element_id, int card_id, String page_type, String element_type, String text_message,
+    public Element(int element_id, int card_id, String page_type, String element_type, String text_message,
                         String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
         this.element_id = element_id;
         this.card_id = card_id;
@@ -46,18 +48,18 @@ public class Element {
     }
     
     //Constructor for delete element handler
-    public void Element(int element_id) {
+    public Element(int element_id) {
 		this.element_id = element_id;
     }
-
-	public int getElement_id() {
-		return element_id;
-	}
     
     
 	///////////////////////////////////////////////////////////////////////////////////////
-	
 	// Getters //
+    
+	public int getElement_id() {
+		return element_id;
+	}
+	
 	public int getCard_id() {
 		return card_id;
 	}
@@ -100,8 +102,8 @@ public class Element {
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////
-	
 	// Setters //
+	
     public void setElement_id(int element_id) {
 		this.element_id = element_id;
 	}
