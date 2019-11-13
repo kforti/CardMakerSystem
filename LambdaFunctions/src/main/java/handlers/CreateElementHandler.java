@@ -62,13 +62,4 @@ public class CreateElementHandler implements RequestStreamHandler {
         writer.write(responseJson.toJSONString()); //responseJson.toString());
         writer.close();
     }
-
-    private String getPageContents(String address) throws IOException{
-        URL url = new URL(address);
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
-            return br.lines().collect(Collectors.joining(System.lineSeparator()));
-        }
-    }
-
-
 }

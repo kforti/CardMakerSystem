@@ -96,8 +96,6 @@ public class CardsDAO
 		 resultSet.close();
 		 statement.close();
 		 return cards;
-             
-
     }
     
     
