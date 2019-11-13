@@ -3,14 +3,10 @@ package handlers;
 import accessDB.ElementDAO;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.Gson;
 
-import com.google.gson.GsonBuilder;
-import models.Card;
 import models.Element;
-import models.GatewayResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
