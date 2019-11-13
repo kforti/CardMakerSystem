@@ -73,7 +73,7 @@ public class CardsDAO
     public Card getCard(int card_id) throws Exception
     {
     	//initial local variables
-    	Card card;
+    	Card card = new Card(0);
     	PreparedStatement ps;
     	ResultSet resultSet;
     	
@@ -93,7 +93,10 @@ public class CardsDAO
     	}
     	
     	//Parse the result set
-    	card = generateCard(resultSet);
+		 while (resultSet.next())
+		 {
+			 card = generateCard(resultSet);
+		 }
 
     	//Close the query/connection and return result
     	resultSet.close();

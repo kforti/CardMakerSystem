@@ -34,6 +34,8 @@ public class GetCardHandler implements RequestStreamHandler {
         //Initialize local variables
         JSONParser parser = new JSONParser();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String error = "";
+        boolean err = false;
         ElementDAO elementDao = new ElementDAO();
         CardsDAO cardDao = new CardsDAO();
         Card card;
@@ -58,19 +60,29 @@ public class GetCardHandler implements RequestStreamHandler {
             status = 200;
 
         } catch (ParseException pe) {
+        	err = true;
+        	error = pe.toString();
         	card = null;
             status = 500;
         } catch (Exception e) {
+        	err = true;
+        	error = e.toString();
         	card = null;
-           status = 501;
+        	status = 501;
         }
+        
         //PrintWriter pw = new PrintWriter(outputStream);
-        responseJson.put("body", new Gson().toJson(card));
+        if(err) {
+        	responseJson.put("body", new Gson().toJson(error));
+        }
+        else {
+        	responseJson.put("body", new Gson().toJson(card));
+        }
         responseJson.put("statusCode", status);
 
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
 
-        writer.write(responseJson.toJSONString()); //responseJson.toString());
+        writer.write(responseJson.toJSONString());
         writer.close();
     }
 }
