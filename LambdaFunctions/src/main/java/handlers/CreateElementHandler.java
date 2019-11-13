@@ -12,8 +12,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.net.URL;
-import java.util.stream.Collectors;
 
 /**
  * Handler for requests to Lambda function.
