@@ -26,7 +26,7 @@ public class ElementDAO
     {
     	int element_id = 0;
     	try {
-	    	PreparedStatement ps = connection.prepareStatement("INSERT INTO cards (event_type, recipient, orientation)"
+	    	PreparedStatement ps = connection.prepareStatement("INSERT INTO elements (card_id, page_type, element_type, text_message, text_font, img_src, x_coord, y_coord, height, width)"
 					+ " values(?,?,?,?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 	    	ps.setInt(1, element.getCard_id());
 	    	ps.setString(2, element.getPage_type());
