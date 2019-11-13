@@ -8,7 +8,8 @@ import models.Element;
 
 public class ElementDAO
 {
-
+	
+	//Create connection to database to execute queries 
 	java.sql.Connection connection;
 
     public ElementDAO() {
@@ -21,6 +22,7 @@ public class ElementDAO
     }
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////Query Functions:
     
     public int addElement(Element element) throws Exception
     {
@@ -52,62 +54,8 @@ public class ElementDAO
 		}
     }
     
-//    public boolean deleteCard(int cardID) throws Exception
-//    {
-//    	try {
-//	    	PreparedStatement ps = connection.prepareStatement("DELETE FROM cards WHERE card_id = ?;");
-//	    	ps.setInt(1, cardID);
-//	    	// Returns num rows changed (deleted, in this case)
-//	    	int numAffected = ps.executeUpdate();
-//	        ps.close();
-//        
-//	        // Should only delete one single Schedule, so if numAffected isn't 1, there was a problem
-//	        return (numAffected == 1);
-//	
-//	    } catch (Exception e) {
-//	        throw new Exception("Failed to delete card: " + e.getMessage());
-//	    }
-//    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////Query Result Processors
     
-//    public List<Card> getAllCards() throws Exception
-//    {
-//    	List<Card> cards = new ArrayList<>();
-//		Statement statement;
-//		ResultSet resultSet;
-//    	 try{
-//    		 statement = connection.createStatement();
-//		 } catch (Exception e){
-//			 throw new Exception("Failed in connecting to DB: " + e.getMessage());
-//		 }
-//    	 try{
-//             String query = "SELECT * FROM cards";
-//             resultSet = statement.executeQuery(query);
-//		 } catch (Exception e){
-//			 throw new Exception("Failed in Cards query: " + e.getMessage());
-//		 }
-//             
-//		 while (resultSet.next())
-//		 {
-//			 Card card = generateCard(resultSet);
-//			 cards.add(card);
-//		 }
-//
-//		 resultSet.close();
-//		 statement.close();
-//		 return cards;
-//             
-//
-//    }
-//    
-//    
-//    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//    
-//	private Card generateCard(ResultSet resultSet) throws Exception{
-//		int cardID = resultSet.getInt("card_id");
-//		String eventType = resultSet.getString("event_type");
-//		String recipient = resultSet.getString("recipient");
-//		String orientation = resultSet.getString("orientation");
-//		
-//		return new Card(cardID, eventType, recipient, orientation);
-//	}
+    
 }

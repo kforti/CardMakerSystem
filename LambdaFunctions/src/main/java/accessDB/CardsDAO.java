@@ -11,6 +11,7 @@ import models.Card;
 public class CardsDAO
 {
 
+	//Create connection to database to execute queries 
 	java.sql.Connection connection;
 
     public CardsDAO() {
@@ -23,6 +24,7 @@ public class CardsDAO
     }
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////Query Functions:
     
     public int addCard(Card card) throws Exception
     {
@@ -47,6 +49,8 @@ public class CardsDAO
 		}
     }
     
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public boolean deleteCard(int cardID) throws Exception
     {
     	try {
@@ -63,6 +67,8 @@ public class CardsDAO
 	        throw new Exception("Failed to delete card: " + e.getMessage());
 	    }
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     public List<Card> getAllCards() throws Exception
     {
@@ -95,7 +101,8 @@ public class CardsDAO
     }
     
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////Query Result Processors
     
 	private Card generateCard(ResultSet resultSet) throws Exception{
 		int cardID = resultSet.getInt("card_id");
