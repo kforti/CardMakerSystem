@@ -1,13 +1,13 @@
 package models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Card {
 	int cardId;
 	String eventType;
 	String recipient;
 	String orientation;
-	ArrayList<Element> elements;
+	List<Element> elements;
 	
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Constructors //
@@ -28,7 +28,7 @@ public class Card {
 	}
 	
 	//Constructor for creating card with elements of that card
-	public Card(int cardId, String eventType, String recipient, String orientation, ArrayList<Element> elements) {
+	public Card(int cardId, String eventType, String recipient, String orientation, List<Element> elements) {
 		this.cardId = cardId;
 		this.eventType = eventType;
 		this.recipient = recipient;
@@ -36,8 +36,8 @@ public class Card {
 		this.elements = elements;
 	}
 	
-    //Constructor for delete card
-    public void Card(int cardId) {
+    //Constructor for delete card and get card by card ID
+    public Card(int cardId) {
 		this.cardId = cardId;
     }
 		
@@ -61,7 +61,7 @@ public class Card {
 		return orientation;
 	}
 
-	public ArrayList<Element> getElements() {
+	public List<Element> getElements() {
 		return elements;
 	}
 	
@@ -85,7 +85,7 @@ public class Card {
 		this.orientation = orientation;
 	}
 
-	public void setElements(ArrayList<Element> elements) {
+	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
 	

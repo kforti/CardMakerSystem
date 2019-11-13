@@ -6,7 +6,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Card;
 import models.Element;
 
 public class ElementDAO

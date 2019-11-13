@@ -70,6 +70,39 @@ public class CardsDAO
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    public Card getCard(int card_id) throws Exception
+    {
+    	//initial local variables
+    	Card card;
+    	PreparedStatement ps;
+    	ResultSet resultSet;
+    	
+    	//Try connection
+    	try{
+    		ps = connection.prepareStatement("SELECT * FROM cards WHERE card_id=?;");
+    	} catch (Exception e){
+    		throw new Exception("Failed in connecting to DB: " + e.getMessage());
+    	}
+    	
+    	//Set up query and execute it
+    	try{
+    		ps.setInt(1,  card_id);
+    		resultSet = ps.executeQuery();
+    	} catch (Exception e){
+    		throw new Exception("Failed in Cards query: " + e.getMessage());
+    	}
+    	
+    	//Parse the result set
+    	card = generateCard(resultSet);
+
+    	//Close the query/connection and return result
+    	resultSet.close();
+    	ps.close();
+    	return card;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public List<Card> getAllCards() throws Exception
     {
     	List<Card> cards = new ArrayList<>();
