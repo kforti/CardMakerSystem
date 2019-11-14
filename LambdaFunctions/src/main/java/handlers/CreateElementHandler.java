@@ -17,6 +17,7 @@ public class CreateElementHandler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    	
     	//Setup the response json for output
         JSONObject responseJson = new JSONObject();
         
@@ -31,9 +32,9 @@ public class CreateElementHandler implements RequestStreamHandler {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String error = "";
         boolean err = false;
+        int status;
         ElementDAO dao = new ElementDAO();
         Element element;
-        int status;
         
         try {
         	//Parse input body

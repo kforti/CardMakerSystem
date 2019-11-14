@@ -8,7 +8,6 @@ import accessDB.CardsDAO;
 import models.Card;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -18,6 +17,7 @@ public class GetCardsHandler implements RequestStreamHandler{
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    	
     	//Setup the response json for output
         JSONObject responseJson = new JSONObject();
         

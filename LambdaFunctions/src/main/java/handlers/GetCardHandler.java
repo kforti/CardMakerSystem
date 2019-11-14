@@ -35,11 +35,11 @@ public class GetCardHandler implements RequestStreamHandler {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String error = "";
         boolean err = false;
+        int status;
         ElementDAO elementDao = new ElementDAO();
         CardsDAO cardDao = new CardsDAO();
         Card card;
         List<Element> elements;
-        int status;
         
         try {        	
             //Parse input body

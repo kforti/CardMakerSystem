@@ -36,11 +36,11 @@ public class DeleteCardHandler implements RequestStreamHandler {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String error = "";
         boolean err = false;
+		int status;
         ElementDAO elementDao = new ElementDAO();
 		CardsDAO cardDao = new CardsDAO();
 		Card card;
 		boolean card_deleted = false;
-		int status;
 
 		try {
 			//Parse input body
