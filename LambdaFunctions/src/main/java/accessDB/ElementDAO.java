@@ -23,12 +23,13 @@ public class ElementDAO
     	}
     }
     
+    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////Query Functions:
     
     public int addElement(Element element) throws Exception
     {
-    	//initial local variables
+    	//initialize local variables
     	int element_id = 0;
     	
     	//Try connection + set up query and execute it
@@ -66,7 +67,7 @@ public class ElementDAO
     
     public List<Element> getElements(int card_id) throws Exception
     {
-    	//initial local variables
+    	//initialize local variables
     	List<Element> elements = new ArrayList<Element>();
     	PreparedStatement ps;
     	ResultSet resultSet;

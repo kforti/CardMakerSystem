@@ -16,19 +16,18 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.util.List;
 
-/**
- * Handler for requests to Lambda function.
- */
 public class GetCardHandler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    	
+    	//Setup the response json for output
+        JSONObject responseJson = new JSONObject();
+        
         JSONObject headerJson = new JSONObject();
-        headerJson.put("Content-Type",  "application/json");  // not sure if needed anymore?
+        headerJson.put("Content-Type",  "application/json");  
         headerJson.put("Access-Control-Allow-Methods", "POST,DELETE,OPTIONS");
         headerJson.put("Access-Control-Allow-Origin",  "*");
-
-        JSONObject responseJson = new JSONObject();
         responseJson.put("headers", headerJson);
 
         //Initialize local variables
@@ -42,11 +41,8 @@ public class GetCardHandler implements RequestStreamHandler {
         List<Element> elements;
         int status;
         
-        try {
-        	//create response object
-        	JSONObject responseBody = new JSONObject();
-        	
-            // Parse input body here
+        try {        	
+            //Parse input body
             JSONObject event = (JSONObject) parser.parse(reader);
             card = new Gson().fromJson(event.get("body").toString(), Card.class);
 
@@ -57,6 +53,7 @@ public class GetCardHandler implements RequestStreamHandler {
             //update the card with elements
             card.setElements(elements);
             
+            //Successful execution
             status = 200;
 
         } catch (ParseException pe) {
@@ -71,7 +68,7 @@ public class GetCardHandler implements RequestStreamHandler {
         	status = 501;
         }
         
-        //PrintWriter pw = new PrintWriter(outputStream);
+        //Produce output response
         if(err) {
         	responseJson.put("body", new Gson().toJson(error));
         }
@@ -79,9 +76,7 @@ public class GetCardHandler implements RequestStreamHandler {
         	responseJson.put("body", new Gson().toJson(card));
         }
         responseJson.put("statusCode", status);
-
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
-
         writer.write(responseJson.toJSONString());
         writer.close();
     }

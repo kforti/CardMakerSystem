@@ -9,19 +9,25 @@ public class Card {
 	String orientation;
 	List<Element> elements;
 	
+	
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Constructors //
 	
-	//Constructor for card only
-	public Card(int cardId, String eventType, String recipient, String orientation) {
+    //Constructor for delete card and get card by card ID
+    public Card(int cardId) {
 		this.cardId = cardId;
+    }
+    
+	//Constructor for creating new card only
+	public Card(String eventType, String recipient, String orientation) {
 		this.eventType = eventType;
 		this.recipient = recipient;
 		this.orientation = orientation;
 	}
 	
-	//Constructor for creating new card only
-	public Card(String eventType, String recipient, String orientation) {
+	//Constructor for card only
+	public Card(int cardId, String eventType, String recipient, String orientation) {
+		this.cardId = cardId;
 		this.eventType = eventType;
 		this.recipient = recipient;
 		this.orientation = orientation;
@@ -35,11 +41,6 @@ public class Card {
 		this.orientation = orientation;
 		this.elements = elements;
 	}
-	
-    //Constructor for delete card and get card by card ID
-    public Card(int cardId) {
-		this.cardId = cardId;
-    }
 		
 	
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -87,12 +88,5 @@ public class Card {
 
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////
-	//EXTRA STUFF WE MAY NOT USE
-	
-	public String toGson() {
-		return "nah";
 	}
 }
