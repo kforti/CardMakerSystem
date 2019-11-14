@@ -1,32 +1,30 @@
 
 /// Cards Page Component
-function cardPage() {
-
-    this.renderTable = renderCardTable;
-    this.cards = getCards();
+async function cardPage() {
+    var cards = await getCards();
+    console.log(cards);
+    for (var i = 0; i < cards.length; i++){
+        cards[i].render()
+    }
     
-}
-
-function renderCardTable() {
-    var html = $('data-table-component')
 }
 
 async function handleRefreshCards(){
     var new_tbody = document.createElement('tbody');
     new_tbody.setAttribute("id", "data-table-body")
-    var old_tbody = $('data-table-body');
+    var old_tbody = document.getElementById('data-table-body');
     old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
-    await getCards();
+    await cardPage();
 }
 
 async function handleDeleteCard() {
-    const dataTable = $('data-table-body');
+    const dataTable = document.getElementById('data-table-body');
     var rows = dataTable.children;
     var cards = [];
     for (var i = 0; i < rows.length; i++) {
         //console.log(rows[i].children[0].children[0].children[0])
         if (rows[i].children[0].children[0].children[0].checked){
-            console.log(rows[i].children[1].innerHTML);
+            //console.log(rows[i].children[1].innerHTML);
 
             var card = new Card(rows[i].children[1].innerHTML,
                 rows[i].children[3].innerHTML,
@@ -40,15 +38,13 @@ async function handleDeleteCard() {
     for (var i = 0; i < cards.length; i++) {
         await cards[i].delete(cards[i]);
     }
-
-
 }
 
 async function handleCreateCard() {
-    var recipient = $("recipient-field").value;
-    var event = $("event-field").value;
-    var portrait = $("portrait-option");
-    var landscape = $("landscape-option");
+    var recipient = document.getElementById("recipient-field").value;
+    var event = document.getElementById("event-field").value;
+    var portrait = document.getElementById("portrait-option");
+    var landscape = document.getElementById("landscape-option");
     var orientation;
     if(landscape.checked){
         orientation = "landscape";
@@ -56,15 +52,35 @@ async function handleCreateCard() {
     else if(portrait.checked) {
         orientation = "portrait";
     }
+    var card = new Card(0, event, recipient, orientation)
 
-    var card = await createCard(recipient, event, orientation);
+    card = await createCard(card);
     
+}
+
+async function handleEditCard() {
+    const dataTable = document.getElementById('data-table-body');
+    var rows = dataTable.children;
+    var card;
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].children[0].children[0].children[0].checked){
+            card = new Card(rows[i].children[1].innerHTML,
+                rows[i].children[3].innerHTML,
+                rows[i].children[2].innerHTML,
+                rows[i].children[4].innerHTML);
+                break;
+        }
+    }
+    document.getElementById('edit-page').style.display = '';
+    document.getElementById('cards-page').style.display = 'none';
+
+    var elements = getElements(card);
 }
 
 ////// Card
 
 function Card(id, event, recipient, orientation) {
-    this.id = id;
+    this.cardId = id;
     this.event = event;
     this.recipient = recipient;
     this.orientation = orientation;
@@ -73,7 +89,7 @@ function Card(id, event, recipient, orientation) {
 }
 
 function renderCard() {
-    const dataTable = $('data-table-body');
+    const dataTable = document.getElementById('data-table-body');
 
     var row = dataTable.insertRow(0);
     var cell0 = row.insertCell(0);
@@ -85,7 +101,7 @@ function renderCard() {
     var cell6 = row.insertCell(6);
 
     cell0.innerHTML = '<div class="card-checkbox"><input id="checkbox" type="checkbox"></div>'
-    cell1.innerHTML = this.id;
+    cell1.innerHTML = this.cardId;
     cell2.innerHTML = this.recipient;
     cell3.innerHTML = this.event;
     cell4.innerHTML = this.orientation;
@@ -97,8 +113,11 @@ function renderCard() {
 }
 
 function cardSelector() {
-    var delete_button = $("delete-card-button")
+    var delete_button = document.getElementById("delete-card-button")
     delete_button.disabled = false;
     delete_button.addEventListener("click", handleDeleteCard)
 
 }
+
+document.getElementById('edit-page').style.display = 'none';
+cardPage();
