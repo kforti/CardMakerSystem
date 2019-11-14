@@ -65,6 +65,44 @@ public class ElementDAO
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    public boolean deleteElement(int elementID) throws Exception
+    {    	
+    	try {
+    		//Set up query and execute it
+	    	PreparedStatement ps = connection.prepareStatement("DELETE FROM elements WHERE element_id = ?;");
+	    	ps.setInt(1, elementID);
+	    	int numAffected = ps.executeUpdate();
+	        ps.close();
+        
+	        //Should only delete one item this given unique element id
+	        return (numAffected == 1);
+	
+	    } catch (Exception e) {
+	        throw new Exception("Failed to delete card: " + e.getMessage());
+	    }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public boolean deleteElementsInCard(int cardID) throws Exception
+    {
+    	try {
+        	//Set up query and execute it
+	    	PreparedStatement ps = connection.prepareStatement("DELETE FROM elements WHERE card_id = ?;");
+	    	ps.setInt(1, cardID);
+	    	int numAffected = ps.executeUpdate();
+	        ps.close();
+        
+	        //Should 0 or more elements in a given card
+	        return (numAffected >= 0);
+	
+	    } catch (Exception e) {
+	        throw new Exception("Failed to delete card: " + e.getMessage());
+	    }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public List<Element> getElements(int card_id) throws Exception
     {
     	//initialize local variables
