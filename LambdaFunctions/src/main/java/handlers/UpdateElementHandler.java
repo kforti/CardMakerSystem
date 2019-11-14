@@ -35,7 +35,7 @@ public class UpdateElementHandler implements RequestStreamHandler {
         int status;
         ElementDAO dao = new ElementDAO();
         Element element;
-        boolean element_deleted = false;
+        boolean element_updated = false;
         
         try {
         	//Parse input body
@@ -43,16 +43,26 @@ public class UpdateElementHandler implements RequestStreamHandler {
         	element = new Gson().fromJson(event.get("body").toString(), Element.class);
 
         	//delete the data from the databases
-        	element_deleted = dao.deleteElement(element.getElement_id());
-
-        	//Successful execution
-        	status = 200;
-
+        	element_updated = dao.updateElement(element);
+        	
+        	if(element_updated) {
+	        	//Successful execution
+	        	status = 200;
+        	}
+        	else {
+        		//failed execution
+        		err = true;
+        		error = "The update failed where update affected more then one element or no elements in datebase.";
+        		status = 502;
+        	}
+        	
         } catch (ParseException pe) {
+        	element = null;
         	err = true;
         	error = pe.toString();
             status = 500;
         } catch (Exception e) {
+        	element = null;
         	err = true;
         	error = e.toString();
         	status = 501;
@@ -63,7 +73,7 @@ public class UpdateElementHandler implements RequestStreamHandler {
         	responseJson.put("body", new Gson().toJson(error));
         }
         else {
-        	responseJson.put("body", new Gson().toJson(element_deleted));
+        	responseJson.put("body", new Gson().toJson(element));
         }
         responseJson.put("statusCode", status);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");

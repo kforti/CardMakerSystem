@@ -32,8 +32,8 @@ public class ElementDAO
     	//initialize local variables
     	int element_id = 0;
     	
-    	//Try connection + set up query and execute it
     	try {
+        	//Try connection + set up query and execute it
 	    	PreparedStatement ps = connection.prepareStatement("INSERT INTO elements (card_id, page_type, element_type, text_message, text_font, img_src, x_coord, y_coord, height, width)"
 					+ " values(?,?,?,?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 	    	ps.setInt(1, element.getCard_id());
@@ -67,9 +67,9 @@ public class ElementDAO
     
     public boolean updateElement(Element element) throws Exception
     {
-    	//Try connection + set up query and execute it
     	try {
-	    	PreparedStatement ps = connection.prepareStatement("UPDATE elements SET card_id = ?, page_type = ?, element_type = ?, text_message = ?, text_font = ?, img_src = ?, x_coord = ?, y_coord = ?, height = ?, width = ?"
+    		//Try connection + set up query and execute it
+	    	PreparedStatement ps = connection.prepareStatement("UPDATE elements SET card_id = ?, page_type = ?, element_type = ?, text_message = ?, text_font = ?, img_src = ?, x_coord = ?, y_coord = ?, height = ?, width = ? "
 	    			+ "WHERE element_id = ?;");
 	    	ps.setInt(1, element.getCard_id());
 	    	ps.setString(2, element.getPage_type());
