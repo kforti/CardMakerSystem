@@ -25,70 +25,69 @@
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+    <div id="wrapper">
 
-      <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-  
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    
+          <!-- Sidebar - Brand -->
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+              <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Cardme</div>
+          </a>
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider my-0">
+    
+          <!-- Nav Item - Dashboard -->
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">
+              <i class="fas fa-fw fa-tachometer-alt"></i>
+              <span>Card Maker</span></a>
+          </li> 
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+    
+          <!-- Heading -->
+          <div class="sidebar-heading">
+            Admin
           </div>
-          <div class="sidebar-brand-text mx-3">Cardme</div>
-        </a>
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
-  
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Card Maker</span></a>
-        </li> 
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-  
-        <!-- Heading -->
-        <div class="sidebar-heading">
-          Admin
-        </div>
-  
-        <!-- Nav Item - Tables -->
-        <li class="nav-item">
-          <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>My Cards</span></a>
-        </li>
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-  
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
-  
-      </ul>
-      <!-- End of Sidebar -->
-  
+    
+          <!-- Nav Item - Tables -->
+          <li class="nav-item">
+            <a class="nav-link" href="tables.html">
+              <i class="fas fa-fw fa-table"></i>
+              <span>My Cards</span></a>
+          </li>
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider d-none d-md-block">
+    
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
+    
+        </ul>
+        <!-- End of Sidebar -->
+      
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
-  
+
         <!-- Main Content -->
         <div id="content">
-  
+
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-  
+
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
               <i class="fa fa-bars"></i>
             </button>
-  
+
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
               
@@ -115,9 +114,9 @@
                     </div>
                   </a>
             
-  
+
               <div class="topbar-divider d-none d-sm-block"></div>
-  
+
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -144,87 +143,197 @@
                   </a>
                 </div>
               </li>
-  
+
             </ul>
-  
+
           </nav>
           <!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-            <h1 class="h3 mb-0 text-gray-800 pb-2">Create Card</h1>
-            <form class="form-inline px-5 border-left-primary">
-                <div class="form-group px-3">
-                  <label for="recipient" class="sr-only">Recipient</label>
-                  <input type="text" name="recipient" class="form-control" id="recipient-field" placeholder="Recipient" required>
-                </div>
-                <div class="form-group px-3">
-                  <label for="event" class="sr-only">Event</label>
-                  <input type="text" name= "event" class="form-control" id="event-field" placeholder="Event" required>
-                </div>
-                <div class="btn-group btn-group-toggle px-3" data-toggle="buttons">
-                  <label class="btn btn-primary active">
-                    <input type="radio" name="orientation" id="landscape-option" autocomplete="off" checked> Landscape
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="orientation" id="portrait-option" autocomplete="off"> Portrait
-                  </label>
-                </div>
-                <button type="button" class="btn btn-danger " onclick="handleCreateCard()">Create Card</button>
-              </form>
+        <div id="cards-page">
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+              <h1 class="h3 mb-0 text-gray-800 pb-2">Create Card</h1>
+              <form class="form-inline px-5 border-left-primary">
+                  <div class="form-group px-3">
+                    <label for="recipient" class="sr-only">Recipient</label>
+                    <input type="text" name="recipient" class="form-control" id="recipient-field" placeholder="Recipient" required>
+                  </div>
+                  <div class="form-group px-3">
+                    <label for="event" class="sr-only">Event</label>
+                    <input type="text" name= "event" class="form-control" id="event-field" placeholder="Event" required>
+                  </div>
+                  <div class="btn-group btn-group-toggle px-3" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                      <input type="radio" name="element-type" id="landscape-option" autocomplete="off" checked> Landscape
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="element-type" id="portrait-option" autocomplete="off"> Portrait
+                    </label>
+                  </div>
+                  <button type="button" class="btn btn-danger " onclick="handleCreateCard()">Create Card</button>
+                </form>
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">My Cards</h1>
-          
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Cards</h6>
-            </div>
-            <button href="#" id="cards-refresh" class="btn btn-info btn-md" onclick="handleRefreshCards()">
-                <span class="glyphicon glyphicon-refresh"></span> Refresh Cards
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">My Cards</h1>
+            
+            <!-- DataTales Example -->
+            <div id="data-table-component" class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Cards</h6>
+              </div>
+              <button href="#" id="cards-refresh" class="btn btn-info btn-md" onclick="handleRefreshCards()">
+                  <span class="glyphicon glyphicon-refresh"></span> Refresh Cards
+              </button>
+              <button href="#" id="delete-card-button" class="btn btn-danger btn-md my-1 " onclick="handleDeleteCard" disabled>
+                  <span class="glyphicon glyphicon-refresh"></span> Delete Card
+              </button>
+              <button href="#" id="edit-card-button" class="btn btn-primary btn-md my-1 " onclick="handleEditCard()">
+                <span class="glyphicon glyphicon-refresh"></span> Edit Card
             </button>
-            <button href="#" id="delete-card-button" class="btn btn-danger btn-md my-1 " onclick="handleDeleteCard" disabled>
-                <span class="glyphicon glyphicon-refresh"></span> Delete Card
-            </button>
-            <div class="card-body">
-              <div class="container well">
-                <table class="table table-hover" id="data-table" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>ID</th>
-                      <th>Recipient</th>
-                      <th>Event</th>
-                      <th>Orientation</th>
-                      <th># Elements</th>
-                      <th>URL</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th></th>
-                      <th>ID</th>
-                      <th>Recipient</th>
-                      <th>Event</th>
-                      <th>Orientation</th>
-                      <th># Elements</th>
-                      <th>URL</th>
+              <div class="card-body">
+                <div class="container well">
+                  <table class="table table-hover" id="data-table" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Recipient</th>
+                        <th>Event</th>
+                        <th>element-type</th>
+                        <th># Elements</th>
+                        <th>URL</th>
                       </tr>
-                    </tr>
-                  </tfoot>
-                  <tbody id="data-table-body">
-                  </tbody>
-                </table>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Recipient</th>
+                        <th>Event</th>
+                        <th>element-type</th>
+                        <th># Elements</th>
+                        <th>URL</th>
+                        </tr>
+                      </tr>
+                    </tfoot>
+                    <tbody id="data-table-body">
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
+          <!-- /.container-fluid -->
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Cards Page wrapper -->
+
+        
+
+        <!-- Begin Page Content -->
+        <div id="edit-page">
+             <!-- Content Row -->
+             <div class="row">
+  
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <a href="#" class="h5 mb-0 font-weight-bold text-primary">Front Page</a>
+                          <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">0 Elements</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a href="#" class="h5 mb-0 font-weight-bold text-success">Inner Left Page</a>
+                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">0 Elements</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a href="#" class="h5 mb-0 font-weight-bold text-info">Inner Left Page</a>
+                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">0 Elements</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a href="#" class="h5 mb-0 font-weight-bold text-warning">Back Page</a>
+                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">0 Elements</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+              </div>
+              <!-- Content Row -->
+
+              <div class="container-fluid text-center">
+                <div class="container-fluid text-center py-3">
+                  
+                  <ul class="list-group list-group-horizontal">
+                      <h2 class="px-5">Current Card</h2>
+                      <li class="list-group-item">ID</li>
+                      <li class="list-group-item" id="card-id-field"></li>
+                      <li class="list-group-item">Recipient</li>
+                      <li class="list-group-item" id="card-recipient-field"></li>
+                      <li class="list-group-item">Event</li>
+                      <li class="list-group-item" id="card-event-field"></li>
+                    </ul>
+                  </div>
+                <form class="form-inline px-5">
+                  <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Text</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <div class="dropdown px-5 ">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Font
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                      <button class="dropdown-item" type="button">Action</button>
+                      <button class="dropdown-item" type="button">Another action</button>
+                      <button class="dropdown-item" type="button">Something else here</button>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-danger " onclick="handleCreateElement()">Create Element</button>
+                </form>
+
+                <canvas id="myCanvas" width="600" height="700" style="border:1px solid #cccc00">
+                </canvas>
+                
+              </div>
+            </div>
 
       </div>
       <!-- End of Main Content -->
+      
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -239,8 +348,6 @@
     </div>
     <!-- End of Content Wrapper -->
 
-  </div>
-  <!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -276,6 +383,7 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.js"></script>
   <script src="js/sb-admin-2.min.js"></script>
+  <script src="api.js"></script>
   <script src="cards.js"></script>
 
   <!-- Page level plugins -->
