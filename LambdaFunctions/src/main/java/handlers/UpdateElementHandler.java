@@ -1,19 +1,19 @@
 package handlers;
 
+import accessDB.ElementDAO;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.Gson;
 
-import accessDB.CardsDAO;
-import models.Card;
-
+import models.Element;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.List;
 
-public class GetCardsHandler implements RequestStreamHandler{
+public class UpdateElementHandler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
@@ -28,37 +28,52 @@ public class GetCardsHandler implements RequestStreamHandler{
         responseJson.put("headers", headerJson);
 
         //Initialize local variables
+        JSONParser parser = new JSONParser();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String error = "";
         boolean err = false;
         int status;
-        CardsDAO cardDao = new CardsDAO();
-        List<Card> cards;
+        ElementDAO dao = new ElementDAO();
+        Element element;
+        boolean element_updated = false;
         
-    	try {
-    		//get the data from the databases
-			cards = cardDao.getAllCards();
-			
-        	//Successful execution
-        	status = 200;
-			
+        try {
+        	//Parse input body
+        	JSONObject event = (JSONObject) parser.parse(reader);
+        	element = new Gson().fromJson(event.get("body").toString(), Element.class);
+
+        	//delete the data from the databases
+        	element_updated = dao.updateElement(element);
+        	
+        	if(element_updated) {
+	        	//Successful execution
+	        	status = 200;
+        	}
+        	else {
+        		//failed execution
+        		err = true;
+        		error = "The update failed where update affected more then one element or no elements in datebase.";
+        		status = 502;
+        	}
+        	
         } catch (ParseException pe) {
+        	element = null;
         	err = true;
         	error = pe.toString();
             status = 500;
-            cards = null;
         } catch (Exception e) {
+        	element = null;
         	err = true;
         	error = e.toString();
         	status = 501;
-        	cards = null;
         }
-    	
+        
         //Produce output response
         if(err) {
         	responseJson.put("body", new Gson().toJson(error));
         }
         else {
-        	responseJson.put("body", new Gson().toJson(cards));
+        	responseJson.put("body", new Gson().toJson(element));
         }
         responseJson.put("statusCode", status);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");

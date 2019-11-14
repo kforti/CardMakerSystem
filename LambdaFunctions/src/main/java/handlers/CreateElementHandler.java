@@ -12,54 +12,66 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.net.URL;
-import java.util.stream.Collectors;
 
-/**
- * Handler for requests to Lambda function.
- */
 public class CreateElementHandler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    	
+    	//Setup the response json for output
+        JSONObject responseJson = new JSONObject();
+        
         JSONObject headerJson = new JSONObject();
-        headerJson.put("Content-Type",  "application/json");  // not sure if needed anymore?
+        headerJson.put("Content-Type",  "application/json");  
         headerJson.put("Access-Control-Allow-Methods", "POST,DELETE,OPTIONS");
         headerJson.put("Access-Control-Allow-Origin",  "*");
-
-        JSONObject responseJson = new JSONObject();
         responseJson.put("headers", headerJson);
 
+        //Initialize local variables
         JSONParser parser = new JSONParser();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String error = "";
+        boolean err = false;
+        int status;
         ElementDAO dao = new ElementDAO();
         Element element;
-        int status;
+        
         try {
-            // Implement body here
-            JSONObject event = (JSONObject) parser.parse(reader);
-            element = new Gson().fromJson(event.get("body").toString(), Element.class);
+        	//Parse input body
+        	JSONObject event = (JSONObject) parser.parse(reader);
+        	element = new Gson().fromJson(event.get("body").toString(), Element.class);
 
-            JSONObject responseBody = new JSONObject();
+        	//get the data from the databases
+        	int element_id = dao.addElement(element);
 
-            int element_id = dao.addElement(element);
-            element.setElement_id(element_id);
-            status = 200;
+        	//update the element with generated id and return it
+        	element.setElement_id(element_id);
+
+        	//Successful execution
+        	status = 200;
 
         } catch (ParseException pe) {
-            element = null;
+        	err = true;
+        	error = pe.toString();
+        	element = null;
             status = 500;
         } catch (Exception e) {
-           element = null;
-           status = 501;
+        	err = true;
+        	error = e.toString();
+        	element = null;
+        	status = 501;
         }
-        //PrintWriter pw = new PrintWriter(outputStream);
-        responseJson.put("body", new Gson().toJson(element));
+        
+        //Produce output response
+        if(err) {
+        	responseJson.put("body", new Gson().toJson(error));
+        }
+        else {
+        	responseJson.put("body", new Gson().toJson(element));
+        }
         responseJson.put("statusCode", status);
-
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
-
-        writer.write(responseJson.toJSONString()); //responseJson.toString());
+        writer.write(responseJson.toJSONString());
         writer.close();
     }
 }

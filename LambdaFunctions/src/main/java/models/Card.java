@@ -1,16 +1,29 @@
 package models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Card {
 	int cardId;
 	String eventType;
 	String recipient;
 	String orientation;
-	ArrayList<Element> elements;
+	List<Element> elements;
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Constructors //
+	
+    //Constructor for delete card and get card by card ID
+    public Card(int cardId) {
+		this.cardId = cardId;
+    }
+    
+	//Constructor for creating new card only
+	public Card(String eventType, String recipient, String orientation) {
+		this.eventType = eventType;
+		this.recipient = recipient;
+		this.orientation = orientation;
+	}
 	
 	//Constructor for card only
 	public Card(int cardId, String eventType, String recipient, String orientation) {
@@ -20,26 +33,14 @@ public class Card {
 		this.orientation = orientation;
 	}
 	
-	//Constructor for creating new card only
-	public Card(String eventType, String recipient, String orientation) {
-		this.eventType = eventType;
-		this.recipient = recipient;
-		this.orientation = orientation;
-	}
-	
 	//Constructor for creating card with elements of that card
-	public Card(int cardId, String eventType, String recipient, String orientation, ArrayList<Element> elements) {
+	public Card(int cardId, String eventType, String recipient, String orientation, List<Element> elements) {
 		this.cardId = cardId;
 		this.eventType = eventType;
 		this.recipient = recipient;
 		this.orientation = orientation;
 		this.elements = elements;
 	}
-	
-    //Constructor for delete card
-    public void Card(int cardId) {
-		this.cardId = cardId;
-    }
 		
 	
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +62,7 @@ public class Card {
 		return orientation;
 	}
 
-	public ArrayList<Element> getElements() {
+	public List<Element> getElements() {
 		return elements;
 	}
 	
@@ -85,14 +86,7 @@ public class Card {
 		this.orientation = orientation;
 	}
 
-	public void setElements(ArrayList<Element> elements) {
+	public void setElements(List<Element> elements) {
 		this.elements = elements;
-	}
-	
-	///////////////////////////////////////////////////////////////////////////////////////
-	//EXTRA STUFF WE MAY NOT USE
-	
-	public String toGson() {
-		return "nah";
 	}
 }

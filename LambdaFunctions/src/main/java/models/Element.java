@@ -13,10 +13,16 @@ public class Element {
     int height;
     int width;
 
+    
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Constructors //
     
-    //Constructor for create element handler
+    //Constructor for delete element and get element by id
+    public Element(int element_id) {
+		this.element_id = element_id;
+    }
+    
+    //Constructor for create new element only
     public Element(int card_id, String page_type, String element_type, String text_message,
             String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
 		this.card_id = card_id;
@@ -31,7 +37,7 @@ public class Element {
 		this.width = width;
 	}
 
-	//Constructor for update element handler
+	//Constructor for general element
     public Element(int element_id, int card_id, String page_type, String element_type, String text_message,
                         String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
         this.element_id = element_id;
@@ -45,11 +51,6 @@ public class Element {
         this.y_coord = y_coord;
         this.height = height;
         this.width = width;
-    }
-    
-    //Constructor for delete element handler
-    public Element(int element_id) {
-		this.element_id = element_id;
     }
     
     

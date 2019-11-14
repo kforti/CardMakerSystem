@@ -28,8 +28,10 @@ public class CardsDAO
     
     public int addCard(Card card) throws Exception
     {
-    	int card_id = 0;
+    	//initialize local variables
+    	int card_id = 0;    	
     	try {
+        	//Set up query and execute it
 	    	PreparedStatement ps = connection.prepareStatement("INSERT INTO cards (event_type, recipient, orientation)"
 					+ " values(?,?,?);", Statement.RETURN_GENERATED_KEYS);
 	    	ps.setString(1,  card.getEventType());
@@ -37,11 +39,14 @@ public class CardsDAO
 			ps.setString(3, card.getOrientation());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
+			
+			//Parse the result set
 			if (rs.next()) {
 				card_id = rs.getInt(1);
 			}
+			
+			//Close the query/connection and return result
 			ps.close();
-
 			return card_id;
 			
 	    } catch (Exception e){
@@ -53,10 +58,10 @@ public class CardsDAO
     
     public boolean deleteCard(int cardID) throws Exception
     {
+    	//Set up query and execute it
     	try {
 	    	PreparedStatement ps = connection.prepareStatement("DELETE FROM cards WHERE card_id = ?;");
 	    	ps.setInt(1, cardID);
-	    	// Returns num rows changed (deleted, in this case)
 	    	int numAffected = ps.executeUpdate();
 	        ps.close();
         
@@ -70,32 +75,75 @@ public class CardsDAO
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public List<Card> getAllCards() throws Exception
+    public Card getCard(int card_id) throws Exception
     {
-    	List<Card> cards = new ArrayList<>();
-		Statement statement;
-		ResultSet resultSet;
-    	 try{
-    		 statement = connection.createStatement();
-		 } catch (Exception e){
-			 throw new Exception("Failed in connecting to DB: " + e.getMessage());
-		 }
-    	 try{
-             String query = "SELECT * FROM cards";
-             resultSet = statement.executeQuery(query);
-		 } catch (Exception e){
-			 throw new Exception("Failed in Cards query: " + e.getMessage());
-		 }
-             
+    	//initialize local variables
+    	Card card = new Card(0);
+    	PreparedStatement ps;
+    	ResultSet resultSet;
+    	
+    	//Try connection
+    	try{
+    		ps = connection.prepareStatement("SELECT * FROM cards WHERE card_id=?;");
+    	} catch (Exception e){
+    		throw new Exception("Failed in connecting to DB: " + e.getMessage());
+    	}
+    	
+    	//Set up query and execute it
+    	try{
+    		ps.setInt(1,  card_id);
+    		resultSet = ps.executeQuery();
+    	} catch (Exception e){
+    		throw new Exception("Failed in Cards query: " + e.getMessage());
+    	}
+    	
+    	//Parse the result set
 		 while (resultSet.next())
 		 {
-			 Card card = generateCard(resultSet);
-			 cards.add(card);
+			 card = generateCard(resultSet);
 		 }
 
-		 resultSet.close();
-		 statement.close();
-		 return cards;
+    	//Close the query/connection and return result
+    	resultSet.close();
+    	ps.close();
+    	return card;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public List<Card> getAllCards() throws Exception
+    {
+    	//initialize local variables
+    	List<Card> cards = new ArrayList<>();
+    	Statement statement;
+    	ResultSet resultSet;
+
+    	//Try connection
+    	try{
+    		statement = connection.createStatement();
+    	} catch (Exception e){
+    		throw new Exception("Failed in connecting to DB: " + e.getMessage());
+    	}
+
+    	//Set up query and execute it
+    	try{
+    		String query = "SELECT * FROM cards";
+    		resultSet = statement.executeQuery(query);
+    	} catch (Exception e){
+    		throw new Exception("Failed in Cards query: " + e.getMessage());
+    	}
+
+    	//Parse the result set
+    	while (resultSet.next())
+    	{
+    		Card card = generateCard(resultSet);
+    		cards.add(card);
+    	}
+
+    	//Close the query/connection and return result
+    	resultSet.close();
+    	statement.close();
+    	return cards;
     }
     
     
