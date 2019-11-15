@@ -1,4 +1,3 @@
-
 /// Cards Page Component
 async function cardPage() {
     var cards = await getCards();
@@ -18,14 +17,11 @@ async function handleRefreshCards(){
 }
 
 async function handleDeleteCard() {
-    const dataTable = document.getElementById('data-table-body');
+    var dataTable = document.getElementById('data-table-body');
     var rows = dataTable.children;
     var cards = [];
     for (var i = 0; i < rows.length; i++) {
-        //console.log(rows[i].children[0].children[0].children[0])
         if (rows[i].children[0].children[0].children[0].checked){
-            //console.log(rows[i].children[1].innerHTML);
-
             var card = new Card(rows[i].children[1].innerHTML,
                 rows[i].children[3].innerHTML,
                 rows[i].children[2].innerHTML,
@@ -53,15 +49,18 @@ async function handleCreateCard() {
         orientation = "portrait";
     }
     var card = new Card(0, event, recipient, orientation)
-
     card = await createCard(card);
-    
+
+    // automatically go to edit page once card is created
+    goToEditPage(card);
 }
 
 async function handleEditCard() {
-    const dataTable = document.getElementById('data-table-body');
+    var dataTable = document.getElementById('data-table-body');
     var rows = dataTable.children;
     var card;
+
+    // get first checked card in table
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].children[0].children[0].children[0].checked){
             card = new Card(rows[i].children[1].innerHTML,
@@ -71,10 +70,26 @@ async function handleEditCard() {
                 break;
         }
     }
+
+    // if a card has been selected, edit it
+    if (card) {
+        goToEditPage(card);
+    }
+}
+
+function goToEditPage(card) {
+    // switch to edit mode
     document.getElementById('edit-page').style.display = '';
     document.getElementById('cards-page').style.display = 'none';
 
-    var elements = getElements(card);
+    // populate card information
+    document.getElementById('card-id-field').innerHTML = card.cardId;
+    document.getElementById('card-recipient-field').innerHTML = card.recipient;
+    document.getElementById('card-event-field').innerHTML = card.event;
+    // TODO set canvas height and width based on orientation
+    // document.getElementById('canvas').width =
+
+    getCardElements(card);
 }
 
 ////// Card
@@ -89,7 +104,7 @@ function Card(id, event, recipient, orientation) {
 }
 
 function renderCard() {
-    const dataTable = document.getElementById('data-table-body');
+    var dataTable = document.getElementById('data-table-body');
 
     var row = dataTable.insertRow(0);
     var cell0 = row.insertCell(0);
