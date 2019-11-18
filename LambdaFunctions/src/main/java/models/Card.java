@@ -18,6 +18,12 @@ public class Card {
 		this.cardId = cardId;
     }
     
+	//Constructor for duplicating card
+	public Card(int cardId, String recipient) {
+		this.cardId = cardId;
+		this.recipient = recipient;
+	}
+    
 	//Constructor for creating new card only
 	public Card(String eventType, String recipient, String orientation) {
 		this.eventType = eventType;
