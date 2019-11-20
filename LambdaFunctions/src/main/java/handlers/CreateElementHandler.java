@@ -3,6 +3,7 @@ package handlers;
 import accessDB.ElementDAO;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.Gson;
 
@@ -23,7 +24,7 @@ public class CreateElementHandler implements RequestStreamHandler {
         
         JSONObject headerJson = new JSONObject();
         headerJson.put("Content-Type",  "application/json");  
-        headerJson.put("Access-Control-Allow-Methods", "POST,DELETE,OPTIONS");
+        headerJson.put("Access-Control-Allow-Methods", "POST,OPTIONS");
         headerJson.put("Access-Control-Allow-Origin",  "*");
         responseJson.put("headers", headerJson);
 
@@ -35,17 +36,21 @@ public class CreateElementHandler implements RequestStreamHandler {
         int status;
         ElementDAO dao = new ElementDAO();
         Element element;
+        LambdaLogger logger = context.getLogger();
+        String reqBody;
         
         try {
         	//Parse input body
         	JSONObject event = (JSONObject) parser.parse(reader);
-        	element = new Gson().fromJson(event.get("body").toString(), Element.class);
+        	reqBody = event.get("body").toString();
+        	logger.log(reqBody);
+        	element = new Gson().fromJson(reqBody, Element.class);
 
         	//get the data from the databases
         	int element_id = dao.addElement(element);
 
         	//update the element with generated id and return it
-        	element.setElement_id(element_id);
+        	element.setElementId(element_id);
 
         	//Successful execution
         	status = 200;

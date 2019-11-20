@@ -11,7 +11,7 @@ public class DatabaseConnect
 	// once you retrieve this code, you can update
 	public final static String rdsMySqlDatabaseUrl = "database-2.cpwe1rxpzibp.us-east-2.rds.amazonaws.com";
 	public final static String dbUsername = "admin_republic";
-	public final static String dbPassword = ""; //add in the password
+	public final static String dbPassword = "republic123"; //add in the password
 		
 	public final static String jdbcTag = "jdbc:mysql://";
 	public final static String rdsMySqlDatabasePort = "3306";

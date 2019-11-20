@@ -1,15 +1,15 @@
 package models;
 
 public class Element {
-    int element_id;
-    int card_id;
-    String page_type;
-    String element_type;
-    String text_message;
-    String text_font;
-    String img_src;
-    int x_coord;
-    int y_coord;
+    int elementId;
+    int cardId;
+    String pageType;
+    String elementType;
+    String textMessage;
+    String textFont;
+    String imgSrc;
+    int xCoord;
+    int yCoord;
     int height;
     int width;
 
@@ -18,37 +18,37 @@ public class Element {
 	// Constructors //
     
     //Constructor for delete element and get element by id
-    public Element(int element_id) {
-		this.element_id = element_id;
+    public Element(int elementId) {
+		this.elementId = elementId;
     }
     
     //Constructor for create new element only
-    public Element(int card_id, String page_type, String element_type, String text_message,
-            String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
-		this.card_id = card_id;
-		this.page_type = page_type;
-		this.element_type = element_type;
-		this.text_message = text_message;
-		this.text_font = text_font;
-		this.img_src = img_src;
-		this.x_coord = x_coord;
-		this.y_coord = y_coord;
+    public Element(int cardId, String pageType, String elementType, String textMessage,
+            String textFont, String imgSrc, int xCoord, int yCoord, int height, int width) {
+		this.cardId = cardId;
+		this.pageType = pageType;
+		this.elementType = elementType;
+		this.textMessage = textMessage;
+		this.textFont = textFont;
+		this.imgSrc = imgSrc;
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
 		this.height = height;
 		this.width = width;
 	}
 
 	//Constructor for general element
-    public Element(int element_id, int card_id, String page_type, String element_type, String text_message,
-                        String text_font, String img_src, int x_coord, int y_coord, int height, int width) {
-        this.element_id = element_id;
-        this.card_id = card_id;
-        this.page_type = page_type;
-        this.element_type = element_type;
-        this.text_message = text_message;
-        this.text_font = text_font;
-        this.img_src = img_src;
-        this.x_coord = x_coord;
-        this.y_coord = y_coord;
+    public Element(int elementId, int cardId, String pageType, String elementType, String textMessage,
+                        String textFont, String imgSrc, int xCoord, int yCoord, int height, int width) {
+        this.elementId = elementId;
+        this.cardId = cardId;
+        this.pageType = pageType;
+        this.elementType = elementType;
+        this.textMessage = textMessage;
+        this.textFont = textFont;
+        this.imgSrc = imgSrc;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
         this.height = height;
         this.width = width;
     }
@@ -57,40 +57,40 @@ public class Element {
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Getters //
     
-	public int getElement_id() {
-		return element_id;
+	public int getElementId() {
+		return elementId;
 	}
 	
-	public int getCard_id() {
-		return card_id;
+	public int getCardId() {
+		return cardId;
 	}
 
-	public String getPage_type() {
-		return page_type;
+	public String getPageType() {
+		return pageType;
 	}
 
-	public String getElement_type() {
-		return element_type;
+	public String getElementType() {
+		return elementType;
 	}
 
-	public String getText_message() {
-		return text_message;
+	public String getTextMessage() {
+		return textMessage;
 	}
 
-	public String getText_font() {
-		return text_font;
+	public String getTextFont() {
+		return textFont;
 	}
 
-	public String getImg_src() {
-		return img_src;
+	public String getImgSrc() {
+		return imgSrc;
 	}
 
-	public int getX_coord() {
-		return x_coord;
+	public int getxCoord() {
+		return xCoord;
 	}
 
-	public int getY_coord() {
-		return y_coord;
+	public int getyCoord() {
+		return yCoord;
 	}
 
 	public int getHeight() {
@@ -105,40 +105,40 @@ public class Element {
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Setters //
 	
-    public void setElement_id(int element_id) {
-		this.element_id = element_id;
+    public void setElementId(int elementId) {
+		this.elementId = elementId;
 	}
 
-	public void setCard_id(int card_id) {
-		this.card_id = card_id;
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
-	public void setPage_type(String page_type) {
-		this.page_type = page_type;
+	public void setPageType(String pageType) {
+		this.pageType = pageType;
 	}
 
-	public void setElement_type(String element_type) {
-		this.element_type = element_type;
+	public void setElementType(String elementType) {
+		this.elementType = elementType;
 	}
 
-	public void setText_message(String text_message) {
-		this.text_message = text_message;
+	public void setTextMessage(String textMessage) {
+		this.textMessage = textMessage;
 	}
 
-	public void setText_font(String text_font) {
-		this.text_font = text_font;
+	public void setTextFont(String textFont) {
+		this.textFont = textFont;
 	}
 
-	public void setImg_src(String img_src) {
-		this.img_src = img_src;
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
 	}
 
-	public void setX_coord(int x_coord) {
-		this.x_coord = x_coord;
+	public void setxCoord(int xCoord) {
+		this.xCoord = xCoord;
 	}
 
-	public void setY_coord(int y_coord) {
-		this.y_coord = y_coord;
+	public void setyCoord(int yCoord) {
+		this.yCoord = yCoord;
 	}
 
 	public void setHeight(int height) {

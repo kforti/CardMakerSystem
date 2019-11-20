@@ -120,7 +120,7 @@
                         <th>ID</th>
                         <th>Recipient</th>
                         <th>Event</th>
-                        <th>element-type</th>
+                        <th>Orientation</th>
                         <th># Elements</th>
                         <th>URL</th>
                       </tr>
@@ -131,7 +131,7 @@
                         <th>ID</th>
                         <th>Recipient</th>
                         <th>Event</th>
-                        <th>element-type</th>
+                        <th>Orientation</th>
                         <th># Elements</th>
                         <th>URL</th>
                         </tr>
@@ -152,6 +152,14 @@
         <!-- Begin Page Content -->
         <div id="edit-page">
              <!-- Content Row -->
+             <div class="container-fluid text-center py-3">
+                  
+                <ul class="list-group list-group-horizontal">
+                    <h2 class="px-5">Current Page</h2>
+                    <li class="list-group-item"><b>ID</b></li>
+                    <li class="list-group-item" id="page-id-field"></li>
+                  </ul>
+                </div>
              <div class="row">
   
                 <!-- Earnings (Monthly) Card Example -->
@@ -231,7 +239,32 @@
                     <label for="text-message">Text</label>
                     <textarea class="form-control" id="text-message" rows="3"></textarea>
                   </div>
-                  <div class="dropdown px-5 ">
+                  <div class="container well">
+                    <table class="table table-hover" id="fonts-table" width="20%" cellspacing="0">
+                        <!-- <thead>
+                            <tr>
+                              <th></th>
+                              <th>Style</th>
+                            </tr>
+                            </thead> -->
+                      <tbody id="font-table-body">
+                        <tr>
+                          <td><div class="font-checkbox"><input id="checkbox" type="checkbox"></div></td>
+                          <td>"Cosmic Sans MS"</td>
+                        </tr>
+                        <tr>
+                            <td><div class="font-checkbox"><input id="checkbox" type="checkbox"></div></td>
+                            <td>"Lucida Calligraphy"</td>
+                          </tr>
+                          <tr>
+                              <td><div class="font-checkbox"><input id="checkbox" type="checkbox"></div></td>
+                              <td>"Times New Roman"</td>
+                            </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                  <!-- <div class="dropdown px-5 ">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="font" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Font
                     </button>
@@ -239,13 +272,17 @@
                       <button class="dropdown-item" type="button">Arial</button>
                       <button class="dropdown-item" type="button">Times New Roman</button>
                       <button class="dropdown-item" type="button">Wingdings</button>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="form-group">
                     <label for="x-coord">X Coordinate</label>
                     <textarea class="form-control" id="x-coord" rows="1"></textarea>
                     <label for="y-coord">Y Coordinate</label>
                     <textarea class="form-control" id="y-coord" rows="1"></textarea>
+                    <label for="width">Width</label>
+                    <textarea class="form-control" id="width-field" rows="1"></textarea>
+                    <label for="height">Height</label>
+                    <textarea class="form-control" id="height-field" rows="1"></textarea>
                   </div>
                   <button type="button" class="btn btn-success" onclick="handleCreateElement()">Create Element</button>
                   <button type="button" class="btn btn-danger" onclick="handleDeleteElement()">Delete Element</button>
