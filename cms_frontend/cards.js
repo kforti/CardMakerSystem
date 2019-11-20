@@ -49,6 +49,8 @@ async function handleCreateCard() {
         orientation = "portrait";
     }
     var card = new Card(0, event, recipient, orientation)
+    
+    if (card.checkPass)
     card = await createCard(card);
 
     // automatically go to edit page once card is created

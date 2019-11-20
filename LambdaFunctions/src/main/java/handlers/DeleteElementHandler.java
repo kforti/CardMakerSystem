@@ -3,6 +3,7 @@ package handlers;
 import accessDB.ElementDAO;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.Gson;
 
@@ -33,7 +34,8 @@ public class DeleteElementHandler implements RequestStreamHandler {
         String error = "";
         boolean err = false;
         int status;
-        ElementDAO dao = new ElementDAO();
+        LambdaLogger logger = context.getLogger();
+        ElementDAO dao = new ElementDAO(logger);
         Element element;
         boolean element_deleted = false;
         
@@ -43,7 +45,8 @@ public class DeleteElementHandler implements RequestStreamHandler {
         	element = new Gson().fromJson(event.get("body").toString(), Element.class);
 
         	//delete the data from the databases
-        	element_deleted = dao.deleteElement(element.getElement_id());
+            logger.log("ElementId: " + element.getElementId() + "\n");
+        	element_deleted = dao.deleteElement(element.getElementId());
 
         	//Successful execution
         	status = 200;

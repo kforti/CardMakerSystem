@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a2db9930-2348-4501-a6a6-770f3bfc07fb" name="Default Changelist" comment="" />
+    <list default="true" id="a2db9930-2348-4501-a6a6-770f3bfc07fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_amazonaws_aws_java_sdk_core_1_11_676.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_amazonaws_aws_java_sdk_kms_1_11_676.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_amazonaws_aws_java_sdk_s3_1_11_676.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_amazonaws_jmespath_java_1_11_676.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_6_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_6_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_cbor_2_6_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__commons_logging_commons_logging_1_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__joda_time_joda_time_2_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LambdaFunctions/.idea/libraries/Maven__software_amazon_ion_ion_java_1_0_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/accessDB/CardsDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/accessDB/CardsDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/accessDB/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/CreateCardHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/CreateCardHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/DeleteCardHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/DeleteCardHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/GetCardsHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/handlers/GetCardsHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/models/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/models/Card.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/models/Element.class" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/models/Element.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/Function/models/Page.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/template.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/.aws-sam/build/template.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/LambdaFunctions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/LambdaFunctions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/accessDB/DatabaseConnect.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/accessDB/DatabaseConnect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/accessDB/ElementDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/accessDB/ElementDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/CreateElementHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/CreateElementHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/DeleteElementHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/DeleteElementHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/DuplicateCardHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/DuplicateCardHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/GetCardHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/handlers/GetCardHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/main/java/models/Element.java" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaFunctions/src/main/java/models/Element.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LambdaFunctions/src/test/java/handlers/CreateCardHandlerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms_frontend/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/cms_frontend/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms_frontend/elements.js" beforeDir="false" afterPath="$PROJECT_DIR$/cms_frontend/elements.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms_frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/cms_frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms_frontend/js/sb-admin-2.js" beforeDir="false" afterPath="$PROJECT_DIR$/cms_frontend/js/sb-admin-2.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,6 +48,9 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />

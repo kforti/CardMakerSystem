@@ -47,7 +47,7 @@ public class GetCardHandler implements RequestStreamHandler {
             card = new Gson().fromJson(event.get("body").toString(), Card.class);
 
             //get the data from the databases
-            card = cardDao.getCard(card.getCardID());
+            //card = cardDao.getCard(card.getCardID());
             elements = elementDao.getElements(card.getCardID());
             
             //update the card with elements

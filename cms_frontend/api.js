@@ -16,7 +16,7 @@ async function apiCall(method, endpoint, req_body) {
     var data;
     try {     
         const response = await fetch(BASE_URL + endpoint, config)
-        const json = await response.json();
+        var json = await response.json();
         //console.log(json)
         return json;
     } catch(err) {
@@ -80,9 +80,76 @@ async function deleteCard(card) {
 async function getElements(card) {
     var body = {
         "cardId": parseInt(card.cardId),
-        "recipient": card.Srecipient,
+        "recipient": card.recipient,
         "eventType": card.event,
         "orientation": card.orientation
     }
-    var data = await apiCall('GET', '/card/elements', body)
+    var data = await apiCall('POST', '/card/elements', body)
+    // console.log(json)
+    // var data = JSON.parse(json.body);
+    data = data["elements"]
+    var elements = [];
+    for (var i = 0; i < data.length; i++) {
+        var el = new Element(data[i]["elementId"],
+                            data[i]["cardId"],
+                            data[i]["pageType"],
+                            data[i]["elementType"],
+                            data[i]["textMessage"],
+                            data[i]["textFont"],
+                            data[i]["imgSrc"],
+                            data[i]["xCoord"],
+                            data[i]["yCoord"],
+                            data[i]["height"],
+                            data[i]["width"]);
+        // Add card to cards obj
+        elements.push(el);
+    }
+    return elements;
+}
+
+async function createElement(element) {
+    var body = {"cardId": element.card_id,
+                "elementId": element.element_id,
+                "pageType": element.page_type,
+                "elementType": element.element_type,
+                "textMessage": element.text_message,
+                "textFont": element.text_font,
+                "imgSrc": element.img_src,
+                "xCoord": element.x_coord,
+                "yCoord": element.y_coord,
+                "height": element.height,
+                "width": element.width}
+    var json = await apiCall('POST', '/card/element', body)
+    element.element_id = json["elementId"]
+    return element;
+}
+
+async function deleteElement(element) {
+    var body = {"elementId": element.element_id,
+                "cardId": element.card_id,
+                "pageType": element.page_type,
+                "elementType": element.element_type,
+                "textMessage": element.text_message,
+                "textFont": element.text_font,
+                "imgSrc": element.img_src,
+                "xCoord": element.x_coord,
+                "yCoord": element.y_coord,
+                "height": element.height,
+                "width": element.width}
+    var json = await apiCall('DELETE', '/card/element', body)
+    console.log(json)
+}
+
+async function updateElement(element) {
+    var body = {"elementId": element.element_id,
+                "cardId": element.card_id,
+                "pageType": element.page_type,
+                "elementType": element.element_type,
+                "textMessage": element.text_message,
+                "textFont": element.text_font,
+                "imgSrc": element.img_src,
+                "xCoord": element.x_coord,
+                "yCoord": element.y_coord,
+                "height": element.height,
+                "width": element.width}
 }

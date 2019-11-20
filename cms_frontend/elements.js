@@ -1,33 +1,50 @@
 // Local Storage
 var elements = [];
-var currentPage = 0;
+var currentPage = "0";
 
 // retrieves all elements for a specific card and renders the page
 async function getCardElements(card) {
     // TODO call handler for list of card elements
-
+    elements = await getElements(card);
     // TODO put everything below this in response
     // REMOVE THIS AFTER creates temporary elements for card
-    const e = new Element(4, card.cardId, 0, "text", "heyyyyy", "Arial", null, 200, 200, 200, 200);
-    const e2 = new Element(7, card.cardId, 0, "text", "ah ha ha", "Arial", null, 300, 400, 200, 200);
-    elements.push(e);
-    elements.push(e2);
+    // for (var element in elements) {
+    
+    // }
+    // const e = new Element(4, card.cardId, 0, "text", "heyyyyy", "Arial", null, 200, 200, 200, 200);
+    // const e2 = new Element(7, card.cardId, 0, "text", "ah ha ha", "Arial", null, 300, 400, 200, 200);
+    // elements.push(e);
+    // elements.push(e2);
     renderCardPage();
 }
 
 // creates an element and re-renders the page
 async function handleCreateElement() {
     var text_message = document.getElementById("text-message").value;
-    var font = document.getElementById("font").value;
+    var font_table_body = document.getElementById("font-table-body");
+    var rows = font_table_body.children;
+    var font = "";
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].children[0].children[0].children[0].checked) {
+            font = rows[i].children[1].innerHTML;
+            break
+        }
+    }
+    
+    var current_card_id = parseInt(document.getElementById("card-id-field").innerHTML);
     var x_coord = parseInt(document.getElementById("x-coord").value);
     var y_coord = parseInt(document.getElementById("y-coord").value);
+    var height = parseInt(document.getElementById("height-field").value);
+    var width = parseInt(document.getElementById("width-field").value);
+    
     // TODO add in width/height functionality (just to UI and to send to database - we dont have to use it when displaying)
 
     // TODO call create element handler
 
     // TODO put everything below in response so that element object has correct id
     // TODO add in functionality for pictures
-    var element = new Element(0, 0, currentPage, "text", text_message, font, null, x_coord, y_coord, 0, 0);
+    var element = new Element(0, current_card_id, currentPage, "text", text_message, font, "", x_coord, y_coord, height, width);
+    element = await createElement(element)
     elements.push(element);
     renderCardPage();
 }
@@ -58,6 +75,7 @@ async function handleDeleteElement() {
     elements = new_elements;
     for (var i = 0; i < deleted_elements.length; i++) {
         // TODO call delete element handler
+        await deleteElement(deleted_elements[i])
     }
     renderCardPage(); // TODO put this in response
 }
@@ -76,6 +94,23 @@ function renderCardPage() {
     // clear table
     var dataTable = document.getElementById('elements-table-body');
     dataTable.innerHTML =  "";
+
+    // set current page
+    var page_id;
+    var page_id_field = document.getElementById('page-id-field');
+    if (currentPage == "0") {
+        page_id = "front page"
+    }
+    else if (currentPage == "1") {
+        page_id = "inner left page"
+    }
+    else if (currentPage == "2") {
+        page_id = "inner right page"
+    }
+    else if (currentPage == "3") {
+        page_id = "back page"
+    }
+    page_id_field.innerHTML = page_id;
 
     // loop through all card elements
     for (var element of elements) {
@@ -106,22 +141,22 @@ function renderCardPage() {
 }
 
 function handleFrontPage() {
-    currentPage = 0;
+    currentPage = "0";
     renderCardPage();
 }
 
 function handleLeftPage() {
-    currentPage = 1;
+    currentPage = "1";
     renderCardPage();
 }
 
 function handleRightPage() {
-    currentPage = 2;
+    currentPage = "2";
     renderCardPage();
 }
 
 function handleBackPage() {
-    currentPage = 3;
+    currentPage = "3";
     renderCardPage();
 }
 

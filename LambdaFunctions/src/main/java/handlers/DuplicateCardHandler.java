@@ -73,13 +73,13 @@ public class DuplicateCardHandler implements RequestStreamHandler {
 				element = elementsList.get(i);
 				
 				//update the card id for the element to new (duplicated) card id
-				element.setCard_id(newCardID);
+				element.setCardId(newCardID);
 				
 				//add the updated element to the database as new element
 				newElementID = elementDao.addElement(element);
 				
 				//update the id for the element to the new generated element ID and replace element with updated one in list
-				element.setElement_id(newElementID);
+				element.setElementId(newElementID);
 				elementsList.set(i, element);
 			}
 			

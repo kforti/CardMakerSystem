@@ -55,3 +55,7 @@
 $('#data-table tbody tr').click(function() {
   $(this).addClass('bg-success').siblings().removeClass('bg-success');
 });
+
+$('.dropdown-inverse li > a').click(function(e){
+  $('.font').text(this.innerHTML);
+});
