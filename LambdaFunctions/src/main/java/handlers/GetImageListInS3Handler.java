@@ -13,6 +13,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.amazonaws.services.s3.AmazonS3;
@@ -53,7 +54,7 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         
         try {        	       	
         	//Make a connection to S3
-        	imgS3 = AmazonS3ClientBuilder.standard().withRegion("us-east-2").build();
+        	imgS3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
         	
         	//List images in the S3 bucket
         	objSummeryList = imgS3.listObjects(bucketName).getObjectSummaries();
