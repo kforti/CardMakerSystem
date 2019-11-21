@@ -19,7 +19,6 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.gson.Gson;
 
@@ -65,6 +64,7 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         		urls.add(imgS3.getUrl(bucketName, os.getKey()));
         	}
         	
+        	//Create the response class
         	s3ImageList = new S3ImageList(fileNames, urls);
         	
             //Successful execution
