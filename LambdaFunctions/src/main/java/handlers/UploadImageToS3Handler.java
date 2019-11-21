@@ -21,7 +21,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import com.google.gson.Gson;
 
 import models.ImageUpload;
@@ -52,7 +51,6 @@ public class UploadImageToS3Handler implements RequestStreamHandler {
         byte[] imageByte;
         InputStream imgStream;
         ObjectMetadata metadata;
-        PutObjectResult uploadedImageMetaData;
         URL uploadedImageUrl;
         
         try {
@@ -73,7 +71,7 @@ public class UploadImageToS3Handler implements RequestStreamHandler {
 //        	metadata.setContentType("image/jpg");
         	
         	//Upload the image and set the access to image public
-        	uploadedImageMetaData = imgS3.putObject(bucketName, file.getFileName(), imgStream, metadata);
+        	imgS3.putObject(bucketName, file.getFileName(), imgStream, metadata);
         	imgS3.setObjectAcl(bucketName, file.getFileName(), CannedAccessControlList.PublicRead);
         	
         	//get the uploaded image's url
