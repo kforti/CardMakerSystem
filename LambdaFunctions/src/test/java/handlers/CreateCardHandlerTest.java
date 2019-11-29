@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class CreateCardHandlerTest {
 	private static final String 
-	SAMPLE_INPUT_STRING = "{\"event_type\": \"Birthday\", \"recipient\": \"Mary\", \"orientation\": \"Landscape\"}";
+	SAMPLE_INPUT_STRING = "{\"body\":{\"eventType\": \"Birthday\", \"recipient\": \"Mary\", \"orientation\": \"Landscape\"}}";
 	private static final String 
 	RESULT = "200";
 	@Test
@@ -23,7 +23,9 @@ public class CreateCardHandlerTest {
 	        JSONParser parser = new JSONParser();
 	        JSONObject OutputNode = (JSONObject) parser.parse(output.toString());
 	        
-	        Assert.assertEquals(RESULT, OutputNode.get("statusCode"));
+	        System.out.println(OutputNode.get("statusCode"));
+	        
+	        Assert.assertEquals(RESULT, OutputNode.get("statusCode").toString());
 	    }
 	}
 

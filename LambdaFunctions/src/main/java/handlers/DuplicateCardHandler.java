@@ -98,6 +98,7 @@ public class DuplicateCardHandler implements RequestStreamHandler {
 			card = null;
         	err = true;
         	error = e.toString();
+        	System.out.println(error);
 			status = 501;
 		}
 
