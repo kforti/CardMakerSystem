@@ -1,17 +1,17 @@
 package handlers;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -19,12 +19,14 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.google.gson.Gson;
 
-import models.S3ImageList;
+import models.ImageUpload;
 
-public class GetImageListInS3Handler implements RequestStreamHandler {
+public class UploadImageToS3Handler implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
@@ -45,38 +47,56 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         boolean err = false;
         int status;
         AmazonS3 imgS3;
-        List<S3ObjectSummary> objSummeryList;
-        List<String> fileNames = new ArrayList<String>();
-        List<URL> urls = new ArrayList<URL>();
-        S3ImageList s3ImageList;
         String bucketName = "cms-client-images";
+        ImageUpload file;
+        byte[] imageByte;
+        InputStream imgStream;
+        ObjectMetadata metadata;
+        PutObjectResult uploadedImageMetaData;
+        URL uploadedImageUrl;
         
-        try {        	       	
-        	//Make a connection to S3
+        try {
+        	//Parse input body
+        	JSONObject event = (JSONObject) parser.parse(reader);
+        	file = new Gson().fromJson(event.get("body").toString(), ImageUpload.class);
+        	
+        	//Make a connection to S3 bucket
         	imgS3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
         	
-        	//List images in the S3 bucket
-        	objSummeryList = imgS3.listObjects(bucketName).getObjectSummaries();
+        	//Convert base64 string to image
+        	imageByte = java.util.Base64.getDecoder().decode(file.getBase64EncodedImage());
+        	imgStream = new ByteArrayInputStream(imageByte);
         	
-        	//Parse the list for directory
-        	for(S3ObjectSummary os: objSummeryList) {
-        		fileNames.add(os.getKey());
-        		urls.add(imgS3.getUrl(bucketName, os.getKey()));
-        	}
+        	//Setup the image file upload data format
+        	metadata = new ObjectMetadata();
+        	metadata.setContentLength(imageByte.length);
+//        	metadata.setContentType("image/jpg");
         	
-        	//Create the response class
-        	s3ImageList = new S3ImageList(fileNames, urls);
+        	//Upload the image and set the access to image public
+        	uploadedImageMetaData = imgS3.putObject(bucketName, file.getFileName(), imgStream, metadata);
+        	imgS3.setObjectAcl(bucketName, file.getFileName(), CannedAccessControlList.PublicRead);
+        	
+        	//get the uploaded image's url
+        	uploadedImageUrl = imgS3.getUrl(bucketName, file.getFileName());
+        	
+        	//Close steams
+        	imgStream.close();
         	
             //Successful execution
             status = 200;
 
-        } catch (AmazonS3Exception pe) {
-        	s3ImageList = null;
+        } catch (AmazonS3Exception ae) {
+        	uploadedImageUrl = null;
+        	err = true;
+        	error = ae.toString();
+            status = 503;
+        } catch (ParseException pe) {
+        	uploadedImageUrl = null;
         	err = true;
         	error = pe.toString();
             status = 500;
         } catch (Exception e) {
-        	s3ImageList = null;
+        	uploadedImageUrl = null;
         	err = true;
         	error = e.toString();
         	status = 501;
@@ -87,7 +107,7 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         	responseJson.put("body", new Gson().toJson(error));
         }
         else {
-        	responseJson.put("body", new Gson().toJson(s3ImageList));
+        	responseJson.put("body", new Gson().toJson(uploadedImageUrl));
         }
         responseJson.put("statusCode", status);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
