@@ -1,4 +1,4 @@
-const BASE_URL = "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta";
+const BASE_URL = "http://127.0.0.1:5500"; //"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta";
 
 
 // Base api call
@@ -47,47 +47,33 @@ async function getCards() {
 // Card API calls
 
 async function createCard(card) {
-    var body = {
-        "cardId": parseInt(card.cardId),
-        "recipient":card.recipient,
-        "eventType":card.event,
-        "orientation":card.orientation
-    }
+    var body = card.toJSON()
     var json = await apiCall('POST', '/card', body);
     card.cardId = json["cardId"]
-    // var card = new Card(data["cardId"],
-    //         data["eventType"],
-    //         data["recipient"],
-    //         data["orientation"]);
+    
     return card;
 }
 
 async function deleteCard(card) {
-    var body = {
-        "cardId": card.cardId,
-        "recipient": card.recipient,
-        "eventType": card.event,
-        "orientation": card.orientation
-    }
-    console.log(body)
+    var body = card.toJSON()
+    
     var json = await apiCall('DELETE', '/card', body)
-    // if (this.rendered) {
-    //     this.removeRenderedCard(card);
-    // }
+    
     console.log(json)
+    return json
 }
 
 async function getElements(card) {
-    var body = {
-        "cardId": parseInt(card.cardId),
-        "recipient": card.recipient,
-        "eventType": card.event,
-        "orientation": card.orientation
-    }
+    var body = card.toJSON()
     var data = await apiCall('POST', '/card/elements', body)
     // console.log(json)
     // var data = JSON.parse(json.body);
-    data = data["elements"]
+    try {
+        data = data["elements"]
+    } catch (exception) {
+        return null;
+    }
+    
     var elements = [];
     for (var i = 0; i < data.length; i++) {
         var el = new Element(data[i]["elementId"],
@@ -108,48 +94,24 @@ async function getElements(card) {
 }
 
 async function createElement(element) {
-    var body = {"cardId": element.card_id,
-                "elementId": element.element_id,
-                "pageType": element.page_type,
-                "elementType": element.element_type,
-                "textMessage": element.text_message,
-                "textFont": element.text_font,
-                "imgSrc": element.img_src,
-                "xCoord": element.x_coord,
-                "yCoord": element.y_coord,
-                "height": element.height,
-                "width": element.width}
+    var body = element.toJSON()
+
     var json = await apiCall('POST', '/card/element', body)
     element.element_id = json["elementId"]
     return element;
 }
 
 async function deleteElement(element) {
-    var body = {"elementId": element.element_id,
-                "cardId": element.card_id,
-                "pageType": element.page_type,
-                "elementType": element.element_type,
-                "textMessage": element.text_message,
-                "textFont": element.text_font,
-                "imgSrc": element.img_src,
-                "xCoord": element.x_coord,
-                "yCoord": element.y_coord,
-                "height": element.height,
-                "width": element.width}
+    var body = element.toJSON()
+
     var json = await apiCall('DELETE', '/card/element', body)
     console.log(json)
 }
 
 async function updateElement(element) {
-    var body = {"elementId": element.element_id,
-                "cardId": element.card_id,
-                "pageType": element.page_type,
-                "elementType": element.element_type,
-                "textMessage": element.text_message,
-                "textFont": element.text_font,
-                "imgSrc": element.img_src,
-                "xCoord": element.x_coord,
-                "yCoord": element.y_coord,
-                "height": element.height,
-                "width": element.width}
+    var body = element.toJSON()
+}
+
+async function uploadImage(img) {
+    var body = img.toJSON()
 }

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>CardMe - Tables</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    
+          <!-- Sidebar - Brand -->
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+              <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Cardme</div>
+          </a>
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider my-0">
+    
+          <!-- Nav Item - Dashboard -->
+          <li class="nav-item active">
+              <a class="nav-link" href="index.html">
+                  <i class="far fa-folder-open"></i>
+                <span>My Cards</span></a>
+            </li> 
+            <!-- Nav Item - Dashboard -->
+          <li class="nav-item active">
+              <a class="nav-link" href="edit-page.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Card Maker</span></a>
+            </li> 
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+    
+        </ul>
+        <!-- End of Sidebar -->
+      
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+            </ul>
+
+          </nav>
+          <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div id="edit-page">
+             <!-- Content Row -->
+             <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    
+                <ul class="list-group list-group-horizontal">
+                  <h4 class="px-5">Current Page</h2>
+                  <li class="list-group-item"><b>ID</b></li>
+                  <li class="list-group-item" id="page-id-field"></li>
+                </ul>
+              </div>
+              <div class="col-xl-3 col-md-6 mb-4">
+                <ul class="list-group list-group-horizontal">
+                    <h4 class="px-5">Current Card</h2>
+                    <li class="list-group-item"><b>ID</b></li>
+                    <li class="list-group-item" id="card-id-field"></li>
+                    <li class="list-group-item"><b>Recipient</b></li>
+                    <li class="list-group-item" id="card-recipient-field"></li>
+                    <li class="list-group-item"><b>Event</b></li>
+                    <li class="list-group-item" id="card-event-field"></li>
+                  </ul>
+                </div>
+              </div>
+             <div class="row">
+  
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <a onclick="handlePageChange('0')" class="h5 mb-0 font-weight-bold text-primary">Front Page</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a onclick="handlePageChange('1')" class="h5 mb-0 font-weight-bold text-success">Inner Left Page</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a onclick="handlePageChange('2')" class="h5 mb-0 font-weight-bold text-info">Inner Right Page</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <a onclick="handlePageChange('3')" class="h5 mb-0 font-weight-bold text-warning">Back Page</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+              </div>
+              <!-- Content Row -->
+
+              <div class="container-fluid text-center">
+                  <div class="container well row">
+                      <input type="file"
+                      id="upload-file" name="avatar"
+                      accept="image/png, image/jpeg" onchange="handleUploadImage(this)" hidden>
+                    <button type="button" class="btn btn-success" onclick="handleUploadButton()">Upload Image</button>
+                  </div>
+
+                  <div class="row py-5">
+                    <div class="col-6">
+                      <canvas id="canvas" width="600" height="700" style="border:1px solid #000000">
+                      </canvas>
+                    </div>
+                    <div class="col-4">
+                        <div class="btn-group btn-group-toggle py-3" data-toggle="buttons">
+                            <label class="btn btn-primary active" onclick="handleTextOption()">
+                              <input type="radio" name="element-type" id="text-option" autocomplete="off" checked> Text
+                            </label>
+                            <label class="btn btn-primary" onclick="handleImageOption()">
+                              <input type="radio" name="element-type" id="image-option" autocomplete="off" > Image
+                            </label>
+                        </div>
+
+                        <!-- TEXT WINDOW -->
+
+                        <div id="text-window">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">ID</span>
+                            </div>
+                            <input type="text" class="form-control"aria-describedby="basic-addon1" readonly>
+                          </div>
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Text</span>
+                              </div>
+                              <input type="text" class="form-control"aria-describedby="basic-addon1">
+                            </div>
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend" >
+                                <label class="input-group-text" for="inputGroupSelect01">Font Style</label>
+                              </div>
+                              <select class="custom-select" id="inputGroupSelect01" onchange="handleFontStyleChange(this)">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                              </select>
+                            </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="inputGroupSelect01">Font Size</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" onchange="handleFontSizeChange(this)">
+                              <option selected>Choose...</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
+                    </div>
+
+                    <!-- IMAGE WINDOW -->
+
+                    <div id="image-window" hidden>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">ID</span>
+                          </div>
+                          <input type="text" class="form-control"aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Image Name</span>
+                            </div>
+                            <input type="text" class="form-control"aria-describedby="basic-addon1">
+                          </div>
+                          <div class="card">
+                            <div class="card-body" id="selected-image-body">
+                              
+                              <h5 class="card-title">Selected Image</h5>
+                              
+                            </div>
+                            <img src="" class="card-img-top" id="selected-element-image">
+                          </div>
+                          <div class="py-5" style="height: 400px;">
+                            <h5>Uploaded Images</h5>
+                              <div class="h-100 overflow-auto" id="uploaded-images">
+                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap1" onclick="handleSelectImage(this)">
+                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap2" onclick="handleSelectImage(this)">
+                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap3" onclick="handleSelectImage(this)">
+                              </div>
+
+
+                          </div>
+                          <div class="py-5" style="height: 400px;">
+                              <h5>Event Images</h5>
+                                <div class="h-100 overflow-auto">
+                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap4" onclick="handleSelectImage(this)">
+                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap5" onclick="handleSelectImage(this)">
+                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap6" onclick="handleSelectImage(this)">
+                            </div>
+  
+  
+                        </div>
+                    </div>
+                    <div class="container well row">
+                        <button type="button" class="btn btn-success" onclick="handleCreateElement()" disabled>Create Element</button>
+                        <button type="button" class="btn btn-danger" onclick="handleDeleteElement()" disabled>Delete Element</button>
+                        <button type="button" class="btn btn-primary" onclick="handleEditElement()" disabled>Edit Element</button>
+                      </div>
+                  
+
+                  </div>
+                  <div class="col-2">
+                    
+                    
+                    </div>
+                    
+                  </div>
+              </div>
+            </div>
+
+      
+      <!-- End of Main Content -->
+
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>CS509 - Team Republic</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="scripts/bootstrap/sb-admin-2.js"></script>
+  <script src="scripts/bootstrap/sb-admin-2.min.js"></script>
+  <script src="scripts/models/main.js"></script>
+  <script src="scripts/models/state.js"></script>
+  <script src="scripts/api/api.js"></script>
+  <script src="scripts/pages/elements.js"></script>
+
+</body>
+
+</html>
