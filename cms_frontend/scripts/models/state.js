@@ -1,19 +1,19 @@
 function State() {
-    this.pages = {
-                "0": new Page("0"),
-                "1": new Page("1"),
-                "2": new Page("2"),
-                "3": new Page("3")}
-    this.currentPage = this.pages[this.page];
+    this.currentPage = null;
     this.currentCard = false;
     this.currentElement = false;
     this.createCardState = {
         recipient: "",
-        event: ""
+        eventType: ""
     }
+    this.newElement = null;
 
-    this.page = "0";
+    this.page0;
+    this.page1;
+    this.page2;
+    this.page3;
 
+    this.mouseDownDone = true;
     this.selectedImage = null;
 
 }

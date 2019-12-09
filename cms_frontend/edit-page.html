@@ -65,9 +65,16 @@
 
         <!-- Main Content -->
         <div id="content">
-
+            
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <div class="container well row">
+                <input type="file"
+                id="upload-file" name="avatar"
+                accept="image/png, image/jpeg" onchange="handleUploadImage(this)" hidden>
+              <button type="button" class="btn btn-primary" onclick="handleUploadButton()">Upload Image</button>
+              <button type="button" class="btn btn-success mx-5" id="show-card-button"> Show Card</button>
+            </div>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -104,78 +111,40 @@
   
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <a onclick="handlePageChange('0')" class="h5 mb-0 font-weight-bold text-primary">Front Page</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" >Front Page</button>
                 </div>
     
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('1')" class="h5 mb-0 font-weight-bold text-success">Inner Left Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" >Inner Left Page</button>
                   </div>
     
                 <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('2')" class="h5 mb-0 font-weight-bold text-info">Inner Right Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-xl-3 col-md-6 mb-4" >
+                    <button type="button" class="btn btn-info mx-5 page-nav-button">Inner Right Page</button>
                   </div>
     
                 <!-- Pending Requests Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('3')" class="h5 mb-0 font-weight-bold text-warning">Back Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-xl-3 col-md-6 mb-4" >
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" id="back page">Back Page</button>
                   </div>
     
               </div>
               <!-- Content Row -->
 
               <div class="container-fluid text-center">
-                  <div class="container well row">
-                      <input type="file"
-                      id="upload-file" name="avatar"
-                      accept="image/png, image/jpeg" onchange="handleUploadImage(this)" hidden>
-                    <button type="button" class="btn btn-success" onclick="handleUploadButton()">Upload Image</button>
-                  </div>
 
-                  <div class="row py-5">
+                  <div class="row py-2">
                     <div class="col-6">
                       <canvas id="canvas" width="600" height="700" style="border:1px solid #000000">
                       </canvas>
                     </div>
                     <div class="col-4">
                         <div class="btn-group btn-group-toggle py-3" data-toggle="buttons">
-                            <label class="btn btn-primary active" onclick="handleTextOption()">
+                            <label class="btn btn-primary active" id="text-option-clickable">
                               <input type="radio" name="element-type" id="text-option" autocomplete="off" checked> Text
                             </label>
-                            <label class="btn btn-primary" onclick="handleImageOption()">
+                            <label class="btn btn-primary" id="image-option-clickable">
                               <input type="radio" name="element-type" id="image-option" autocomplete="off" > Image
                             </label>
                         </div>
@@ -184,37 +153,37 @@
 
                         <div id="text-window">
                           <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">ID</span>
+                            <div class="input-group-prepend" >
+                              <span class="input-group-text">ID</span>
                             </div>
-                            <input type="text" class="form-control"aria-describedby="basic-addon1" readonly>
+                            <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-card-id-field" readonly>
                           </div>
                           <div class="input-group mb-3">
                               <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Text</span>
+                                <span class="input-group-text">Text</span>
                               </div>
-                              <input type="text" class="form-control"aria-describedby="basic-addon1">
+                              <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-text-message-field">
                             </div>
                           <div class="input-group mb-3">
                               <div class="input-group-prepend" >
                                 <label class="input-group-text" for="inputGroupSelect01">Font Style</label>
                               </div>
-                              <select class="custom-select" id="inputGroupSelect01" onchange="handleFontStyleChange(this)">
+                              <select class="custom-select" id="font-style-select" onchange="handleFontStyleChange(this)">
                                 <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="serif">Serif</option>
+                                <option value="times">Times</option>
+                                <option value="Arial">Arial</option>
                               </select>
                             </div>
                           <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <label class="input-group-text" for="inputGroupSelect01">Font Size</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01" onchange="handleFontSizeChange(this)">
+                            <select class="custom-select" id="font-size-select" onchange="handleFontSizeChange(this)">
                               <option selected>Choose...</option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
+                              <option value="20px">20</option>
+                              <option value="30px">30</option>
+                              <option value="40px">40</option>
                             </select>
                           </div>
                     </div>
@@ -223,17 +192,23 @@
 
                     <div id="image-window" hidden>
                         <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">ID</span>
-                          </div>
-                          <input type="text" class="form-control"aria-describedby="basic-addon1" readonly>
-                        </div>
-                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Image Name</span>
                             </div>
-                            <input type="text" class="form-control"aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" id="selected-image-name" aria-describedby="basic-addon1">
                           </div>
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">Heigth</span>
+                              </div>
+                              <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-height-field">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">Width</span>
+                                </div>
+                                <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-width-field">
+                              </div>
                           <div class="card">
                             <div class="card-body" id="selected-image-body">
                               
@@ -242,12 +217,14 @@
                             </div>
                             <img src="" class="card-img-top" id="selected-element-image">
                           </div>
+                          <div class="container well row py-2">
+                              <button type="button" class="btn btn-success" id="create-element-button" disabled>Create Element</button>
+                              <button type="button" class="btn btn-danger" onclick="handleDeleteElement()" id="delete-element-button" disabled>Delete Element</button>
+                              <button type="button" class="btn btn-primary" id="edit-element-button" disabled>Edit Element</button>
+                            </div>
                           <div class="py-5" style="height: 400px;">
                             <h5>Uploaded Images</h5>
                               <div class="h-100 overflow-auto" id="uploaded-images">
-                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap1" onclick="handleSelectImage(this)">
-                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap2" onclick="handleSelectImage(this)">
-                                  <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap3" onclick="handleSelectImage(this)">
                               </div>
 
 
@@ -263,11 +240,7 @@
   
                         </div>
                     </div>
-                    <div class="container well row">
-                        <button type="button" class="btn btn-success" onclick="handleCreateElement()" disabled>Create Element</button>
-                        <button type="button" class="btn btn-danger" onclick="handleDeleteElement()" disabled>Delete Element</button>
-                        <button type="button" class="btn btn-primary" onclick="handleEditElement()" disabled>Edit Element</button>
-                      </div>
+                   
                   
 
                   </div>
