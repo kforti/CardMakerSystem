@@ -4,11 +4,9 @@ import java.net.URL;
 import java.util.List;
 
 public class S3ImageList {
-	List<String> fileNames;
-	List<URL> urls;
+	List<Image> images;
 	
-	public S3ImageList(List<String> fileNames, List<URL> urls){
-		this.fileNames = fileNames;
-		this.urls = urls;
+	public S3ImageList(List<Image> images){
+		this.images = images;
 	}
 }

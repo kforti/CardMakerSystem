@@ -1,57 +1,172 @@
-
 // On page load
-
 var STATE = fetchState()
-loadPage()
+
+STATE = loadPage(STATE)
 
 
 function fetchState() {
     var STATE = JSON.parse(localStorage.getItem('state'));
+    console.log(STATE)
+    var card = new Card()
+    STATE.currentCard = card.fromJSON(JSON.parse(STATE.currentCard))
+    
     return STATE;
 }
 
-function loadPage() {
+async function loadPage(state) {
+    document.getElementById("show-card-button").addEventListener("click", () => {handleShowCard(state)})
+    // Create pages
+    if (!state.page0) {
+        state.page0 = new Page("0");
+    }
+    if (!state.page1) {
+        state.page1 = new Page("1");
+    }
+    if (!state.page2) {
+        state.page2 = new Page("2");
+    }
+    if (!state.page3) {
+        state.page3 = new Page("3");
+    }
+    state.currentPage = state.page0;
+    document.getElementById('page-id-field').innerText = "Front Page"
+
+    setCanvas(state);
+    await setElementStage(state);
+    setPageNav(state);
+    
+    
+    //console.log(state.currentPage)
+
     // Get Stored Card
     var elements = [];
 
-    // Set Canvas Event listener
-    const canvas = document.querySelector('canvas')
-    canvas.addEventListener('mousedown', (e) => {
-        var cursor_position = getCursorPosition(canvas, e);
-        element = checkElement(cursor_position.x_pos, cursor_position.y_pos);
-        if (element) {
-            stageElement();
-        }
-    })
-    canvas.addEventListener('mouseup', (e) => {
-        var cursor_position = getCursorPosition(canvas, e);
-        moveElement(cursor_position);
-        console.log("MOUSE UP: " + cursor_position.x_pos + "," +cursor_position.y_pos)
-    })
-
-    if (STATE !== null) {
-        var card = STATE.currentCard;
-        
+    if (state.currentCard !== null) {
+        var card = state.currentCard;
+        console.log(card)
         document.getElementById('card-id-field').innerHTML = card.cardId;
         document.getElementById('card-recipient-field').innerHTML = card.recipient;
-        document.getElementById('card-event-field').innerHTML = card.event;
+        document.getElementById('card-event-field').innerHTML = card.eventType;
         
-        //elements = getElements(card);
-        elements = [new Element(55, 55, "0", "text", "text_message", 
-            "times", "someurl", 50, 60, 23, 44)]
+        elements = await getElements(card);
+        console.log(elements)
+        // elements = []
+        // var e1 = new Element(55, 55, "0", "text", "text_message", 
+        //     "times", "someurl", 50, 60, 23, 44)
+        // e1.fontSize = "20px"
+        // e1.fontStyle = "serif"
+        // e1.setTextFont();
+        // e1.setWidthHeight()
+        
+        // elements.push(e1)
 
         if (!elements) {
             return
         }
 
         for (var el of elements) {
-            var page = STATE.currentPage;
-            console.log(page);
-            page.elements.push(el);
+            if (el.pageType == "0") {
+                state.page0.addElement(el);
+            }
+            else if (el.pageType == "1") {
+                state.page1.addElement(el);
+            }
+            else if (el.pageType == "2") {
+                state.page2.addElement(el);
+            }
+            else if (el.pageType == "3") {
+                state.page3.addElement(el);
+            }
         }
     }
 
-    renderElements(STATE.currentPage.elements)
+    renderElements(state.currentPage.elements)
+}
+
+function setCanvas(state) {
+    // Set Canvas Event listener
+    const canvas = document.querySelector('canvas')
+    canvas.addEventListener('mousedown', (e) => {
+        state.mouseDownDone = false;
+        try {
+            var cursor_position = getCursorPosition(canvas, e);
+        element = checkElement(state, cursor_position.x_pos, cursor_position.y_pos);
+        if (element) {
+            stageElement(state, element);
+            //console.log("element")
+        } else{console.log("NO Element")}
+        }
+        catch (Exception) {
+            state.mouseDownDone = true;
+        }
+        state.mouseDownDone = true;
+    })
+    canvas.addEventListener('mouseup', (e) => {
+        var cursor_position = getCursorPosition(canvas, e);
+
+        var iters = 0;
+        while (!state.mouseDownDone) {
+            iters += 1;
+            if (iters == 10000) {
+                console.log("10000 iters")
+                return
+            }
+        }
+        //console.log(state)
+        if (state.currentElement){
+            moveElement(state, cursor_position);
+            //console.log("MOUSE UP: " + cursor_position.x_pos + "," +cursor_position.y_pos)
+        }
+        
+    })
+
+}
+
+async function setElementStage(state) {
+    document.getElementById("text-option-clickable").addEventListener("click", () => {handleTextOption(state)})
+    document.getElementById("image-option-clickable").addEventListener("click", () => {handleImageOption(state)})
+
+    state.newElement = new Element()
+    state.newElement.xCoord = 200;
+    state.newElement.yCoord = 200;
+    state.newElement.pageType = state.currentPage.id;
+    state.newElement.cardId = state.currentCard.cardId;
+    document.getElementById("edit-element-button").addEventListener("click", () => {handleEditElement(state)})
+    document.getElementById("create-element-button").addEventListener("click", (event) => {handleCreateElement(state)})
+    
+    var text_field = document.getElementById("selected-text-message-field")
+    text_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+
+    var font_style = document.getElementById("font-style-select")
+    font_style.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+
+    var font_size = document.getElementById("font-size-select")
+    font_size.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+
+    var name_field = document.getElementById("selected-image-name")
+    name_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+
+
+    var images = await getImages()
+    // var images = [];
+    // var img1 = new Image("myImg", "", "https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg")
+    // images.push(img1)
+
+    var img_holder = document.getElementById("uploaded-images")
+    for (img of images) {
+        var img_element = img.toHTML();
+        img_element.addEventListener("click", (event) => {handleSelectImage(state, event, img)})
+        img_holder.appendChild(img_element)
+    }
+    
+}
+
+function setPageNav(state) {
+    var page_buttons = document.getElementsByClassName("page-nav-button")
+    console.log(page_buttons)
+    for (button of page_buttons) {
+        button.addEventListener("click", (event) => {handlePageChange(state, event)})
+    }
 }
 
 /////////////////////////////
@@ -66,31 +181,79 @@ function getCursorPosition(canvas, event) {
             y_pos: y}
 }
 
-function moveElement(cursor_pos) {
+async function moveElement(state, cursor_pos) {
+    var element = state.currentElement;
+    if (element.inBoundary(cursor_pos.x_pos, cursor_pos.y_pos)) {
+        console.log("NOT MOVED")
+        return
+    }
+    element.xCoord = cursor_pos.x_pos;
+    element.yCoord = cursor_pos.y_pos;
+    await updateElement(element)
+    state.currentPage.updateElement(element)
+    renderElements(state.currentPage.elements)
 
 }
 
-function checkElement(x_pos, y_pos) {
+function checkElement(state, x_pos, y_pos) {
     console.log(x_pos, y_pos)
-    for (var el of STATE.currentPage.elements) {
-        if ( (x_pos >= el.xCoord && x_pos <= (el.xCoord + el.width) ) && ( y_pos <= el.yCoord && y_pos >= (el.yCoord - el.height) )) {
-            stageElement(el)
+    console.log(state.currentPage.elements)
+    for (var el of state.currentPage.elements) {
+        if (el.inBoundary(x_pos, y_pos)) {
+            return el;
+        }
+        
+    }
+    return false;
+}
+
+function stageElement(state, el) {
+    state.currentElement = el;
+    state.newElement = el;
+    document.getElementById("create-element-button").disabled = false;
+    
+    var styles = document.getElementById("font-style-select")
+    var sizes = document.getElementById("font-size-select")
+    for (var i = 0; i < styles.length; i++){
+        console.log("style")
+        console.log(styles.options[i].value)
+        console.log(el.fontStyle)
+        if (styles.options[i].value == el.fontStyle) {
+            styles.selectedIndex = i;
         }
     }
-}
+    for (var i = 0; i < sizes.length; i++){
+        if (sizes.options[i].value == el.fontSize) {
+            sizes.selectedIndex = i;
+        }
+    }
+    
+    var id_field = document.getElementById("selected-card-id-field")
+    var text_field = document.getElementById("selected-text-message-field")
+    id_field.value = el.cardId;
+    text_field.value = el.textMessage;
+    console.log(id_field)
 
-function stageElement(el) {
-
+    //document.getElementById("edit-element-button").disabled = false;
 }
 
 function renderElements(elements) {
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (var element of elements) {
-        ctx.font = "50px sans-serif";
-        var t = ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
-        console.log(ctx);
+        console.log(element)
+        if (element.elementType == "text") {
+            ctx.font = element.textFont;
+            var t = ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
+        }
+        else if (element.elementType == "image") {
+            var imgHTML = element.getImageHTML();
+            console.log(imgHTML);
+            ctx.drawImage(imgHTML, 100, 100, 100, 100)
+        }
+        
     }
 }
 
@@ -99,141 +262,77 @@ function renderElements(elements) {
 ////////////
 
 // creates an element and re-renders the page
-async function handleCreateElement() {
-    var text_message = document.getElementById("text-message").value;
-    var font_table_body = document.getElementById("font-table-body");
-    var rows = font_table_body.children;
-    var font = "";
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i].children[0].children[0].children[0].checked) {
-            font = rows[i].children[1].innerHTML;
-            break
-        }
+async function handleCreateElement(state) {
+    
+    element = await createElement(state.newElement)
+    if (element) {
+        state.currentPage.addElement(element)
     }
-    
-    var current_card_id = parseInt(document.getElementById("card-id-field").innerHTML);
-    var x_coord = parseInt(document.getElementById("x-coord").value);
-    var y_coord = parseInt(document.getElementById("y-coord").value);
-    var height = parseInt(document.getElementById("height-field").value);
-    var width = parseInt(document.getElementById("width-field").value);
-    
-    // TODO add in width/height functionality (just to UI and to send to database - we dont have to use it when displaying)
-
-    // TODO call create element handler
-
-    // TODO put everything below in response so that element object has correct id
-    // TODO add in functionality for pictures
-    var element = new Element(0, current_card_id, currentPage, "text", text_message, font, "", x_coord, y_coord, height, width);
-    element = await createElement(element)
-    elements.push(element);
-    renderCardPage();
+    renderElements(state.currentPage.elements)
+    console.log(element)
 }
 
-// deletes all selected element and re-renders the page
-async function handleDeleteElement() {
-    var dataTable = document.getElementById('elements-table-body');
-    var rows = dataTable.children;
+function handleEditElement(state) {
+    if (state.currentElement.elementType === "text") {
+        var id_field = document.getElementById("selected-card-id-field").value
+        var text_field = document.getElementById("selected-text-message-field").value
+        var font_style = document.getElementById("font-style-select").value
+        var font_size = document.getElementById("font-size-select").value
+        state.currentElement.cardId = id_field;
+        state.currentElement.textMessage = text_field;
+        state.currentElement.fontStyle = font_style;
+        state.currentElement.fontSize = font_size;
+        state.currentElement.setTextFont();
+        state.currentElement.setWidthHeight();
+        // console.log(font_size)
+        // console.log(id_field)
+        // console.log(text_field)
+        // console.log(font_style)
+    
 
-    var new_elements = [];
-    var deleted_ids = [];
-    var deleted_elements = [];
-
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i].children[0].children[0].children[0].checked) {
-            deleted_ids.push(rows[i].children[1].innerHTML);
-        }
-    }
-
-    for (var element of elements) {
-        if (deleted_ids.includes(element.element_id.toString())) {
-            deleted_elements.push(element);
-        } else {
-            new_elements.push(element);
-        }
-    }
-
-    elements = new_elements;
-    for (var i = 0; i < deleted_elements.length; i++) {
-        // TODO call delete element handler
-        await deleteElement(deleted_elements[i])
-    }
-    renderCardPage(); // TODO put this in response
-}
-
-// renders the elements of the current card page onto the canvas
-function renderCardPage() {
-    var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
-
-    // clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // clear table
-    var dataTable = document.getElementById('elements-table-body');
-    dataTable.innerHTML =  "";
-
-    // // set current page
-    // var page_id;
-    // var page_id_field = document.getElementById('page-id-field');
-    // if (currentPage == "0") {
-    //     page_id = "front page"
-    // }
-    // else if (currentPage == "1") {
-    //     page_id = "inner left page"
-    // }
-    // else if (currentPage == "2") {
-    //     page_id = "inner right page"
-    // }
-    // else if (currentPage == "3") {
-    //     page_id = "back page"
-    // }
-    // page_id_field.innerHTML = page_id;
-
-    // loop through all card elements
-    for (var element of elements) {
-        
-        if (element.elementType === "text") {
-            // add to canvas
-            ctx.font = "30px " + element.textFont;
-            ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
-
-        } else {
-            // TODO implement displaying image on canvas
-        }
+    } else if (state.currentElement.elementType === "image") {
         
     }
+
 }
 
-function handlePageChange(page_id) {
-    var page_id;
+function handlePageChange(state, event) {
+    var page_id = event.srcElement.innerText
     var page_id_field = document.getElementById('page-id-field');
-    if (page_id == "0") {
-        page_id = "front page"
+    if (page_id == "Front Page") {
+        state.currentPage = state.page0;
     }
-    else if (page_id == "1") {
-        page_id = "inner left page"
+    else if (page_id == "1Inner Left Page") {
+        state.currentPage = state.page1;
     }
-    else if (page_id == "2") {
-        page_id = "inner right page"
+    else if (page_id == "Inner Right Page") {
+        state.currentPage = state.page2;
     }
-    else if (page_id == "3") {
-        page_id = "back page"
+    else if (page_id == "Back Page") {
+        state.currentPage = state.page3;
     }
-    page_id_field.innerHTML = page_id;
+    renderElements(state.currentPage.elements)
+    page_id_field.innerText = page_id;
 
 }
 
-function handleTextOption() {
+// Navigating Text and Image Elements
+
+function handleTextOption(state) {
     console.log("TEXT")
+    state.newElement.elementType = "text"
     document.getElementById("text-window").hidden = false;
     document.getElementById("image-window").hidden = true;
 }
 
-function handleImageOption() {
+function handleImageOption(state) {
     console.log("Image")
+    state.newElement.elementType = "image"
     document.getElementById("text-window").hidden = true;
     document.getElementById("image-window").hidden = false;
 }
+
+// Editing Font Element
 
 function handleFontStyleChange(el, text_state) {
     console.log("FONT STYLE");
@@ -245,38 +344,53 @@ function handleFontSizeChange(el, text_state) {
     console.log(el.value);
 }
 
+
+// Selecting and Editing images
 function handleImageNameChange() {
 
 }
 
-function handleSelectImage(el) {
+function handleSelectImage(state, event, img) {
     console.log("IMAGE SELECTED");
-    console.log(el);
-    if (STATE.selectedImage === el) {
-        img = STATE.selectedImage;
-        STATE.selectedImage = null;
+    console.log(img);
+    
+    var name_field = document.getElementById("selected-image-name")
+    var create_button = document.getElementById("create-element-button")
+
+    if (state.selectedImage === img) {
+        create_button.disabled = true;
+        state.selectedImage = null;
         var img_body = document.getElementById("selected-image");
         img_body.remove();
-        el.style.border = "";
+        event.target.style.border = "";
+        name_field.value = "";
+        id_field.value = ";"
         return;
     }
 
-    else if (STATE.selectedImage) {
+    else if (state.selectedImage) {
         var img_body = document.getElementById("selected-image");
         img_body.remove();
-        STATE.selectedImage.style.border = "";
+        state.selectedImage.style.border = "";
 
     }
+    state.newElement.imgSrc = img.url;
+    state.newElement.fileName = img.fileName;
 
-    var img = el.cloneNode(true);
+    create_button.disabled = false;
+    name_field.value = img.fileName;
+    state.selectedImage = img;
+    var img = event.target.cloneNode(true);
     img.setAttribute("id", "selected-image")
-    STATE.selectedImage = el;
+
     var img_body = document.getElementById("selected-image-body");
     img_body.appendChild(img);
-    el.style.border = "3px solid red";  
+    event.target.style.border = "3px solid red";  
     
 }
 
+
+/// Upload Image
 function handleUploadButton() {
     document.getElementById("upload-file").click()
 }
@@ -285,16 +399,67 @@ function handleUploadImage(el) {
     console.log(el.files);
     var reader = new FileReader();
     var image_holder = document.getElementById("uploaded-images");
+    var img_file = el.files[0];
 
-    reader.addEventListener("load", function () {
+    reader.addEventListener("load", async function () {
+        console.log(reader.result.split(',')[1])
+        var image = new Image(img_file.name, reader.result.split(',')[1])
+        await uploadImage(image)
+
         var img = document.createElement('img')
         img.addEventListener("click", () => { handleSelectImage(img)});
         img.setAttribute("class", "img-fluid optional-image");
         img.src = reader.result;
         image_holder.appendChild(img);
-      }, false);
 
-    reader.readAsDataURL( el.files[0]);
+        
+      }, false);
+    reader.readAsDataURL(img_file);
+    
+}
+
+function handleElementFieldChange(event, state) {
+    console.log("new element")
+    console.log(state.newElement)
+
+    // Set element to either Text or Image
+    if (document.getElementById("text-option").checked){
+        if (state.newElement.elementType != "text") {
+            state.newElement.elementType = "text";
+        }
+        
+    } else if (document.getElementById("image-option").checked) {
+        if (state.newElement.elementType != "image") {
+            state.newElement.elementType = "image";
+        }
+    }
+    
+    // set other element attributes
+    state.newElement.pageType = state.currentPage.id
+    if (event.target.id === "selected-text-message-field") {
+        state.newElement.textMessage = event.target.value;
+
+    } else if (event.target.id === "font-style-select") {
+        state.newElement.fontStyle = event.target.value;
+        
+    } else if (event.target.id === "font-size-select") {
+        state.newElement.fontSize = event.target.value;
+        
+    } else if (event.target.id === "selected-image-name") {
+        state.newElement.fileName = event.target.value;
+        
+    }
+    var elementComplete = state.newElement.isCompleted();
+    if (elementComplete){
+        document.getElementById("edit-element-button").disabled = false;
+        document.getElementById("create-element-button").disabled = false;
+    } else if (!elementComplete) {
+        document.getElementById("edit-element-button").disabled = true;
+    }
+    
 }
 
 
+function handleShowCard(state) {
+    
+}

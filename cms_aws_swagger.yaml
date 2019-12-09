@@ -79,6 +79,107 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
+  /card/element:
+    post:
+      operationId: "createElement"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Element"
+        required: true
+        schema:
+          $ref: "#/definitions/Element"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:createElement/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    delete:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:deleteElement/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      consumes:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        type: "mock"
+  /card/element/update:
+    post:
+      operationId: "updateElement"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Element"
+        required: true
+        schema:
+          $ref: "#/definitions/Element"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
   /card/elements:
     post:
       operationId: "getElements"
@@ -181,17 +282,19 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /card/element:
+  /image:
     post:
-      operationId: "createElement"
+      operationId: "getElements"
       consumes:
+      - "application/json"
+      produces:
       - "application/json"
       parameters:
       - in: "body"
-        name: "Element"
+        name: "Image"
         required: true
         schema:
-          $ref: "#/definitions/Element"
+          $ref: "#/definitions/Image"
       responses:
         200:
           description: "200 response"
@@ -199,78 +302,7 @@ paths:
             Access-Control-Allow-Origin:
               type: "string"
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:createElement/invocations"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
-    delete:
-      responses:
-        200:
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:deleteElement/invocations"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
-    options:
-      consumes:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'DELETE,OPTIONS,POST'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        passthroughBehavior: "when_no_match"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        type: "mock"
-  /card/element/update:
-    post:
-      operationId: "updateElement"
-      consumes:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "Element"
-        required: true
-        schema:
-          $ref: "#/definitions/Element"
-      responses:
-        200:
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:updateElement/invocations"
+        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:uploadNewUserImage/invocations"
         responses:
           default:
             statusCode: "200"
@@ -299,6 +331,53 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        type: "mock"
+  /images:
+    get:
+      operationId: "getImages"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:614696073148:function:getListOfImagesInS3/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      consumes:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
         passthroughBehavior: "when_no_match"
@@ -337,10 +416,13 @@ definitions:
         type: "string"
       imageSrc:
         type: "string"
-  ArrayOfElement:
-    type: "array"
-    items:
-      $ref: "#/definitions/Element"
+  Image:
+    type: "object"
+    properties:
+      fileName:
+        type: "string"
+      base64EncodedImage:
+        type: "string"
   ArrayOfCard:
     type: "array"
     items:

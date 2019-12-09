@@ -1,3 +1,5 @@
+const BASE_PAGES_URL = "http://127.0.0.1:5500"; // "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
+
 var STATE = new State();
 
 /////////////////////////
@@ -36,7 +38,7 @@ function renderCard(card) {
                 //<input id="checkbox-${card.cardId}" type=checkbox></div>`
     cell1.innerHTML = card.cardId;
     cell2.innerHTML = card.recipient;
-    cell3.innerHTML = card.event;
+    cell3.innerHTML = card.eventType;
     cell4.innerHTML = card.orientation;
     
     // cell0.addEventListener("click", () => { handleCardSelector(card) });
@@ -106,7 +108,7 @@ async function handleDeleteCard(card) {
 
 async function handleCreateCard() {
     var recipient = document.getElementById("recipient-field").value;
-    var event = document.getElementById("event-field").value;
+    var eventType = document.getElementById("event-field").value;
     var portrait = document.getElementById("portrait-option");
     var landscape = document.getElementById("landscape-option");
     var orientation;
@@ -116,7 +118,7 @@ async function handleCreateCard() {
     else if(portrait.checked) {
         orientation = "portrait";
     }
-    var card = new Card(0, event, recipient, orientation)
+    var card = new Card(0, eventType, recipient, orientation)
     
     if (!card.checkPass) {
         
@@ -126,14 +128,14 @@ async function handleCreateCard() {
     if (card) {
         STATE.currentCard = card;
         localStorage.setItem('state', JSON.stringify(STATE));
-        location.href = BASE_URL + "/edit-page.html";
+        location.href = BASE_PAGES_URL + "/edit-page.html";
     }
     
 }
 
-async function handleEditCard() {
-    localStorage.setItem('state', JSON.stringify(STATE));
-    location.href = BASE_URL + "/edit-page.html";
+async function handleEditCard(state) {
+    localStorage.setItem('state', JSON.stringify(state));
+    location.href = BASE_PAGES_URL + "/edit-page.html";
 
 
 }

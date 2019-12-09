@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Image;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -46,8 +47,7 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         int status;
         AmazonS3 imgS3;
         List<S3ObjectSummary> objSummeryList;
-        List<String> fileNames = new ArrayList<String>();
-        List<URL> urls = new ArrayList<URL>();
+        List<Image> images = new ArrayList<Image>();
         S3ImageList s3ImageList;
         String bucketName = "cms-client-images";
         
@@ -60,12 +60,12 @@ public class GetImageListInS3Handler implements RequestStreamHandler {
         	
         	//Parse the list for directory
         	for(S3ObjectSummary os: objSummeryList) {
-        		fileNames.add(os.getKey());
-        		urls.add(imgS3.getUrl(bucketName, os.getKey()));
+        	    Image img = new Image(os.getKey(), imgS3.getUrl(bucketName, os.getKey()).toString());
+        		images.add(img);
         	}
         	
         	//Create the response class
-        	s3ImageList = new S3ImageList(fileNames, urls);
+        	s3ImageList = new S3ImageList(images);
         	
             //Successful execution
             status = 200;

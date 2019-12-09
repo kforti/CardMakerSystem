@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:5500"; //"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta";
+const BASE_API_URL = "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
 
 
 // Base api call
@@ -10,12 +10,12 @@ async function apiCall(method, endpoint, req_body) {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify(req_body)
+        body: req_body
         }
 
     var data;
     try {     
-        const response = await fetch(BASE_URL + endpoint, config)
+        const response = await fetch(BASE_API_URL + endpoint, config)
         var json = await response.json();
         //console.log(json)
         return json;
@@ -66,7 +66,7 @@ async function deleteCard(card) {
 async function getElements(card) {
     var body = card.toJSON()
     var data = await apiCall('POST', '/card/elements', body)
-    // console.log(json)
+    console.log(data)
     // var data = JSON.parse(json.body);
     try {
         data = data["elements"]
@@ -97,7 +97,8 @@ async function createElement(element) {
     var body = element.toJSON()
 
     var json = await apiCall('POST', '/card/element', body)
-    element.element_id = json["elementId"]
+    console.log(json)
+    element.elementId = json["elementId"]
     return element;
 }
 
@@ -110,8 +111,28 @@ async function deleteElement(element) {
 
 async function updateElement(element) {
     var body = element.toJSON()
+    console.log(`body: ${body}`)
+    var json = await apiCall('POST', '/card/element/update', body)
+    console.log(json)
+    console.log(element)
 }
 
 async function uploadImage(img) {
     var body = img.toJSON()
+    console.log(body)
+    var json = await apiCall('POST', '/image', body)
+    console.log(json)
+}
+
+
+async function getImages() {
+    var json = await apiCall('GET', '/images')
+    console.log(json)
+    var images = [];
+    for (img of json.images) {
+        images.push(new Image(img.fileName, "", img.url))
+    }
+    console.log(images)
+    return images;
+     
 }
