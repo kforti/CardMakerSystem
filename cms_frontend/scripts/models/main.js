@@ -50,6 +50,8 @@ function Element (element_id, card_id, page_type, element_type, text_message,
     this.fontStyleOptions = ["serif", "times", "Arial"]
     this.selected = false;
 
+    this.image;
+
     this.setTextFont = () => {
         this.textFont = this.fontSize + " " + this.fontStyle;
     }
