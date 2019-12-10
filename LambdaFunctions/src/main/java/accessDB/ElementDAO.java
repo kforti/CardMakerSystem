@@ -117,7 +117,6 @@ public class ElementDAO
 	    	int numAffected = ps.executeUpdate("DELETE FROM elements WHERE element_id = " + elementID);
 
 	        ps.close();
-	        logger.log("DB Num affected: " + numAffected + "\n");
 	        //Should only delete one item this given unique element id
 	        return (numAffected == 1);
 	
