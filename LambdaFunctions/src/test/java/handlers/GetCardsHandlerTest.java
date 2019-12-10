@@ -9,23 +9,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class GetCardsHandlerTest {
-	private static final String 
-	SAMPLE_INPUT_STRING = "{\"body\":{}}";
-	private static final String 
-	RESULT = "200";
+	private static final String RESULT = "200";
+	
 	@Test
-	public void testCalculatorHandler() throws IOException, ParseException {
-	        GetCardsHandler handler = new GetCardsHandler();
-	        InputStream input = new ByteArrayInputStream(SAMPLE_INPUT_STRING.getBytes());
-	        OutputStream output = new ByteArrayOutputStream();
-	        handler.handleRequest(input, output, null);
-	        
-	        JSONParser parser = new JSONParser();
-	        JSONObject OutputNode = (JSONObject) parser.parse(output.toString());
-	        
-	        System.out.println(OutputNode.get("statusCode"));
-	        
-	        Assert.assertEquals(RESULT, OutputNode.get("statusCode").toString());
-	    }
-	}
+	public void testGetCardsHandler() throws IOException, ParseException {
+		String SAMPLE_INPUT_STRING = "{\"body\":{}}";
+		
+        GetCardsHandler handler = new GetCardsHandler();
+        InputStream input = new ByteArrayInputStream(SAMPLE_INPUT_STRING.getBytes());
+        OutputStream output = new ByteArrayOutputStream();
+        handler.handleRequest(input, output, null);       
+        JSONParser parser = new JSONParser();
+        JSONObject OutputNode = (JSONObject) parser.parse(output.toString());
+        
+        Assert.assertEquals(RESULT, OutputNode.get("statusCode").toString());
+    }
+}
 
