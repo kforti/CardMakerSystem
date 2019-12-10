@@ -34,8 +34,8 @@ public class DeleteElementHandler implements RequestStreamHandler {
         String error = "";
         boolean err = false;
         int status;
-        LambdaLogger logger = context.getLogger();
-        ElementDAO dao = new ElementDAO(logger);
+        //LambdaLogger logger = context.getLogger();
+        ElementDAO dao = new ElementDAO();
         Element element;
         boolean element_deleted = false;
         
@@ -45,7 +45,7 @@ public class DeleteElementHandler implements RequestStreamHandler {
         	element = new Gson().fromJson(event.get("body").toString(), Element.class);
 
         	//delete the data from the databases
-            logger.log("ElementId: " + element.getElementId() + "\n");
+            //logger.log("ElementId: " + element.getElementId() + "\n");
         	element_deleted = dao.deleteElement(element.getElementId());
 
         	//Successful execution
@@ -58,6 +58,7 @@ public class DeleteElementHandler implements RequestStreamHandler {
         } catch (Exception e) {
         	err = true;
         	error = e.toString();
+        	System.out.println(e.toString());
         	status = 501;
         }
         

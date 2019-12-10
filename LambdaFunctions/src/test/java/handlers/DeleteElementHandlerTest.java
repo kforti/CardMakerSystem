@@ -10,13 +10,11 @@ import org.junit.Test;
 
 public class DeleteElementHandlerTest {
 	private static final String 
-	SAMPLE_INPUT_STRING = "{\"body\":{\"card_id\": \"100\", \"page_type\": \"front\",\"element_type\": \"text\""
-			+ "\"text_message\": \"text_message\", \"text_font\": \"text_font\", \"img_src\": \" \", "
-			+ "\"x_coord\": \"100\", \"y_coord\": \"100\",\"height\": \"100\",\"weight\": \"100\"}}";
+	SAMPLE_INPUT_STRING = "{\"body\":{\"elementId\": \"0000000057\"}}";
 	private static final String 
 	RESULT = "200";
 	@Test
-	public void testCalculatorHandler() throws IOException, ParseException {
+	public void testDeleteElementHandler() throws IOException, ParseException {
 			DeleteElementHandler handler = new DeleteElementHandler();
 	        InputStream input = new ByteArrayInputStream(SAMPLE_INPUT_STRING.getBytes());
 	        OutputStream output = new ByteArrayOutputStream();

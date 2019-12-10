@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class DuplicateCardHandlerTest {
 	private static final String 
-	SAMPLE_INPUT_STRING = "{\"body\":{\"cardId\": \"100\", \"eventType\": \"Birthday\", \"recipient\": \"Mary\", \"orientation\": \"Landscape\"}}";
+	SAMPLE_INPUT_STRING = "{\"body\":{\"cardId\": \"0000000061\", \"eventType\": \"Birthday\", \"recipient\": \"Mary\", \"orientation\": \"Landscape\"}}";
 	private static final String 
 	RESULT = "200";
 	@Test

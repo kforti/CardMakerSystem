@@ -36,14 +36,14 @@ public class CreateElementHandler implements RequestStreamHandler {
         int status;
         ElementDAO dao = new ElementDAO();
         Element element;
-        LambdaLogger logger = context.getLogger();
+        //LambdaLogger logger = context.getLogger();
         String reqBody;
         
         try {
         	//Parse input body
         	JSONObject event = (JSONObject) parser.parse(reader);
         	reqBody = event.get("body").toString();
-        	logger.log(reqBody);
+        	//logger.log(reqBody);
         	element = new Gson().fromJson(reqBody, Element.class);
 
         	//get the data from the databases

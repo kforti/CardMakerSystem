@@ -10,13 +10,13 @@ import org.junit.Test;
 
 public class UpdateElementHandlerTest {
 	private static final String 
-	SAMPLE_INPUT_STRING = "{\"body\":{\"card_id\": \"100\", \"page_type\": \"front\",\"element_type\": \"text\""
-			+ "\"text_message\": \"text_message\", \"text_font\": \"text_font\", \"img_src\": \" \", "
-			+ "\"x_coord\": \"100\", \"y_coord\": \"100\",\"height\": \"100\",\"weight\": \"100\"}}";
+	SAMPLE_INPUT_STRING = "{\"body\":{\"elementId\": \"0000000053\", \"cardId\": \"100\", \"pageType\": \"front\",\"elementType\": \"text\""
+			+ "\"textMessage\": \"textFont\", \"textFont\": \"textFont\", \"imgSrc\": \" \", "
+			+ "\"xCoord\": \"100\", \"yCoord\": \"100\",\"height\": \"100\",\"width\": \"100\"}}";
 	private static final String 
 	RESULT = "200";
 	@Test
-	public void testCalculatorHandler() throws IOException, ParseException {
+	public void testUpdateElementHandler() throws IOException, ParseException {
 			UpdateElementHandler handler = new UpdateElementHandler();
 	        InputStream input = new ByteArrayInputStream(SAMPLE_INPUT_STRING.getBytes());
 	        OutputStream output = new ByteArrayOutputStream();
