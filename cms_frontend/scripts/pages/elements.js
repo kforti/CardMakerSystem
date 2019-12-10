@@ -1,7 +1,7 @@
 // On page load
 var STATE = fetchState()
 
-STATE = loadPage(STATE)
+var STATE = loadCardEditor(STATE);
 
 
 function fetchState() {
@@ -13,9 +13,14 @@ function fetchState() {
     return STATE;
 }
 
-async function loadPage(state) {
-    document.getElementById("show-card-button").addEventListener("click", () => {handleShowCard(state)})
-    // Create pages
+async function loadCardEditor(state) {
+    state = await loadCard(state)
+    setCanvas(state);
+    setPageNav(state);
+    state = await buildCardEditor(state)
+}
+
+async function loadCard(state) {
     if (!state.page0) {
         state.page0 = new Page("0");
     }
@@ -29,37 +34,11 @@ async function loadPage(state) {
         state.page3 = new Page("3");
     }
     state.currentPage = state.page0;
-    document.getElementById('page-id-field').innerText = "Front Page"
 
-    setCanvas(state);
-    await setElementStage(state);
-    setPageNav(state);
-    
-    
-    //console.log(state.currentPage)
-
-    // Get Stored Card
     var elements = [];
 
     if (state.currentCard !== null) {
-        var card = state.currentCard;
-        console.log(card)
-        document.getElementById('card-id-field').innerHTML = card.cardId;
-        document.getElementById('card-recipient-field').innerHTML = card.recipient;
-        document.getElementById('card-event-field').innerHTML = card.eventType;
-        
-        elements = await getElements(card);
-        console.log(elements)
-        // elements = []
-        // var e1 = new Element(55, 55, "0", "text", "text_message", 
-        //     "times", "someurl", 50, 60, 23, 44)
-        // e1.fontSize = "20px"
-        // e1.fontStyle = "serif"
-        // e1.setTextFont();
-        // e1.setWidthHeight()
-        
-        // elements.push(e1)
-
+        elements = await getElements(state.currentCard);
         if (!elements) {
             return
         }
@@ -79,23 +58,47 @@ async function loadPage(state) {
             }
         }
     }
-
     renderElements(state.currentPage.elements)
+    return state;
 }
 
+async function buildCardEditor(state) {
+    document.getElementById("show-card-button").addEventListener("click", () => {handleShowCard(state)})
+    await setElementStage(state);
+
+    document.getElementById('card-id-field').innerText = state.currentCard.cardId;
+    document.getElementById('card-recipient-field').innerText = state.currentCard.recipient;
+    document.getElementById('card-event-field').innerText = state.currentCard.eventType;
+    return state;
+}
+
+
 function setCanvas(state) {
-    // Set Canvas Event listener
     const canvas = document.querySelector('canvas')
+    console.log(state.currentCard.orientation.toLowerCase())
+    // Set Width and Height
+    if (state.currentCard.orientation.toLowerCase() === "portrait") {
+        canvas.width = 600;
+        canvas.heigth = 900;
+    } else if (state.currentCard.orientation.toLowerCase() === "landscape") {
+        canvas.width = 900;
+        canvas.height = 600;
+    }
+    
+    // Set Event Listeners
     canvas.addEventListener('mousedown', (e) => {
         state.mouseDownDone = false;
         try {
             var cursor_position = getCursorPosition(canvas, e);
-        element = checkElement(state, cursor_position.x_pos, cursor_position.y_pos);
-        if (element) {
-            stageElement(state, element);
-            //console.log("element")
-        } else{console.log("NO Element")}
-        }
+            element = checkElement(state, cursor_position.x_pos, cursor_position.y_pos);
+            if (element && element.elementType === "text") {
+                stageTextElement(state, element);
+                //console.log("element")
+            } else if (element && element.elementType === "image") {
+                stageImageElement(state, element);
+
+            }else{console.log("NO Element")}
+            }
         catch (Exception) {
             state.mouseDownDone = true;
         }
@@ -116,24 +119,28 @@ function setCanvas(state) {
         if (state.currentElement){
             moveElement(state, cursor_position);
             //console.log("MOUSE UP: " + cursor_position.x_pos + "," +cursor_position.y_pos)
-        }
-        
+        } 
     })
-
 }
 
 async function setElementStage(state) {
+
+    // Text/Image Nav
     document.getElementById("text-option-clickable").addEventListener("click", () => {handleTextOption(state)})
     document.getElementById("image-option-clickable").addEventListener("click", () => {handleImageOption(state)})
 
+    // Initialize new element at (200, 200)
     state.newElement = new Element()
     state.newElement.xCoord = 200;
     state.newElement.yCoord = 200;
     state.newElement.pageType = state.currentPage.id;
     state.newElement.cardId = state.currentCard.cardId;
-    document.getElementById("edit-element-button").addEventListener("click", () => {handleEditElement(state)})
-    document.getElementById("create-element-button").addEventListener("click", (event) => {handleCreateElement(state)})
-    
+
+    // Add Event listener to text edit fields and edit, create and delete buttons
+    document.getElementById("edit-text-element-button").addEventListener("click", () => {handleEditTextElement(state)})
+    document.getElementById("create-text-element-button").addEventListener("click", (event) => {handleCreateTextElement(state)})
+    document.getElementById("delete-text-element-button").addEventListener("click", (event) => {handleDeleteTextElement(state)})
+
     var text_field = document.getElementById("selected-text-message-field")
     text_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
 
@@ -143,14 +150,15 @@ async function setElementStage(state) {
     var font_size = document.getElementById("font-size-select")
     font_size.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
 
+    // Add Event listener to image edit fields and edit, create and delete buttons
+    document.getElementById("edit-image-element-button").addEventListener("click", () => {handleEditImageElement(state)})
+    document.getElementById("create-image-element-button").addEventListener("click", () => {handleCreateImageElement(state)})
+    document.getElementById("delete-image-element-button").addEventListener("click", () => {handleDeleteImageElement(state)})
+    
     var name_field = document.getElementById("selected-image-name")
     name_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
 
-
     var images = await getImages()
-    // var images = [];
-    // var img1 = new Image("myImg", "", "https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg")
-    // images.push(img1)
 
     var img_holder = document.getElementById("uploaded-images")
     for (img of images) {
@@ -207,10 +215,11 @@ function checkElement(state, x_pos, y_pos) {
     return false;
 }
 
-function stageElement(state, el) {
+function stageTextElement(state, el) {
     state.currentElement = el;
     state.newElement = el;
-    document.getElementById("create-element-button").disabled = false;
+    document.getElementById("create-text-element-button").disabled = false;
+    document.getElementById("delete-text-element-button").disabled = false;
     
     var styles = document.getElementById("font-style-select")
     var sizes = document.getElementById("font-size-select")
@@ -228,13 +237,27 @@ function stageElement(state, el) {
         }
     }
     
-    var id_field = document.getElementById("selected-card-id-field")
+    var id_field = document.getElementById("selected-element-id-field")
     var text_field = document.getElementById("selected-text-message-field")
-    id_field.value = el.cardId;
+    id_field.value = el.elementId;
     text_field.value = el.textMessage;
     console.log(id_field)
 
     //document.getElementById("edit-element-button").disabled = false;
+}
+
+function stageImageElement(state, el) {
+    state.currentElement = el;
+    state.newElement = el;
+
+    var id_field = document.getElementById("selected-element-id-field")
+    var name_field = document.getElementById("selected-image-name-field")
+    var height_field = document.getElementById("selected-image-height-field")
+    var width_field = document.getElementById("selected-image-width-field")
+    id_field.value = el.elementId;
+    name_field.value = el.image.fileName;
+    height_field = el.height;
+    width_field = el.width;
 }
 
 function renderElements(elements) {
@@ -251,7 +274,7 @@ function renderElements(elements) {
         else if (element.elementType == "image") {
             var imgHTML = element.getImageHTML();
             console.log(imgHTML);
-            ctx.drawImage(imgHTML, 100, 100, 100, 100)
+            ctx.drawImage(imgHTML, element.xCoord, element.yCoord, element.width, element.height);
         }
         
     }
@@ -302,7 +325,7 @@ function handlePageChange(state, event) {
     if (page_id == "Front Page") {
         state.currentPage = state.page0;
     }
-    else if (page_id == "1Inner Left Page") {
+    else if (page_id == "Inner Left Page") {
         state.currentPage = state.page1;
     }
     else if (page_id == "Inner Right Page") {
@@ -332,22 +355,41 @@ function handleImageOption(state) {
     document.getElementById("image-window").hidden = false;
 }
 
-// Editing Font Element
+// Editing Text Element
 
-function handleFontStyleChange(el, text_state) {
-    console.log("FONT STYLE");
-    console.log(el.value);
+function handleFontStyleChange(el, state) {
+    state.newElement.fontStyle = el.value;
+    checkTextElementStatus(state)
 }
 
-function handleFontSizeChange(el, text_state) {
-    console.log("FONT Size");
-    console.log(el.value);
+function handleFontSizeChange(el, state) {
+    state.newElement.fontSize = el.value;
+    checkTextElementStatus(state)
 }
 
+function handleTextMessageChange(el, state) {
+    state.newElement.textMessage = el.value
+    checkTextElementStatus(state)
+}
 
+function checkTextElementStatus(state) {
+    var element_changed = state.isElementTextChanged();
+    if (element_changed) {
+        document.getElementById("edit-text-element-button").disabled = false;
+    } else if (!element_changed) {
+        document.getElementById("edit-text-element-button").disabled = true;
+    }
+
+    var element_complete = el.isCompleted();
+    if (element_complete) {
+        document.getElementById("create-text-element-button").disabled = false;
+    } else if (!element_complete) {
+        document.getElementById("create-text-element-button").disabled = true;
+    } 
+}
 // Selecting and Editing images
-function handleImageNameChange() {
-
+function handleImageNameChange(el, state) {
+    state.newElement.image.fileName = el.value;
 }
 
 function handleSelectImage(state, event, img) {
@@ -386,6 +428,10 @@ function handleSelectImage(state, event, img) {
     var img_body = document.getElementById("selected-image-body");
     img_body.appendChild(img);
     event.target.style.border = "3px solid red";  
+    
+}
+
+function checkImageElementStatus(state) {
     
 }
 

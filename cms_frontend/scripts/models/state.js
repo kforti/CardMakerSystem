@@ -16,6 +16,21 @@ function State() {
     this.mouseDownDone = true;
     this.selectedImage = null;
 
+    this.isTextElementChanged = () => {
+        var fontSize = (this.newElement.fontSize === this.currentElement.fontSize);
+        var fontStyle = (this.newElement.fontStyle === this.currentElement.fontStyle);
+        var textMessage = (this.newElement.textMessage === this.currentElement.textMessage);
+        var yCoord = (this.newElement.yCoord === this.currentElement.yCoord);
+        var xCoord = (this.newElement.xCoord === this.currentElement.xCoord);
+
+        if (fontSize && fontStyle && textMessage && yCoord && xCoord) {return true;} else {return false;}
+    }
+
+    this.isImageElementChnaged = () => {
+        var fileName = ();
+        var url = ();
+    }
+
 }
 
 function CreateTextElementState() {
