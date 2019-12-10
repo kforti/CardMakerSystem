@@ -111,7 +111,10 @@ function Element (element_id, card_id, page_type, element_type, text_message,
     this.checkDimensions = () => {
         if (!this.xCoord && !this.yCoord) {return false}
         if ( (this.xCoord && this.yCoord) && (!this.width && !this.height) ){
-            this.setWidthHeight();
+            if (this.elementType === "text") {
+                this.setWidthHeight();
+            }
+            
         }
         if (this.width && this.height) { return true}
     }

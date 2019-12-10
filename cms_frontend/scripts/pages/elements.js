@@ -5,12 +5,16 @@ var STATE = loadCardEditor(STATE);
 
 
 function fetchState() {
-    var STATE = JSON.parse(localStorage.getItem('state'));
-    console.log(STATE)
-    var card = new Card()
-    STATE.currentCard = card.fromJSON(JSON.parse(STATE.currentCard))
+    var STATE = new State();
+    var state = JSON.parse(localStorage.getItem('state'));
     
+    var card = new Card()
+    state.currentCard = card.fromJSON(JSON.parse(state.currentCard))
+    console.log(state)
+    STATE.fromJSON(state)
+    console.log(STATE)
     return STATE;
+    
 }
 
 async function loadCardEditor(state) {
@@ -389,7 +393,17 @@ function checkTextElementStatus(state) {
 }
 // Selecting and Editing images
 function handleImageNameChange(el, state) {
+    console.log("FILENAMECHANGE")
     state.newElement.image.fileName = el.value;
+    checkImageElementStatus(state)
+}
+
+function handleImageHeightChange(el, state) {
+
+}
+
+function handleImageWidthChange(el, state) {
+    
 }
 
 function handleSelectImage(state, event, img) {
@@ -397,16 +411,15 @@ function handleSelectImage(state, event, img) {
     console.log(img);
     
     var name_field = document.getElementById("selected-image-name")
-    var create_button = document.getElementById("create-element-button")
 
     if (state.selectedImage === img) {
-        create_button.disabled = true;
         state.selectedImage = null;
         var img_body = document.getElementById("selected-image");
         img_body.remove();
         event.target.style.border = "";
         name_field.value = "";
         id_field.value = ";"
+        checkImageElementStatus(state)
         return;
     }
 
@@ -417,9 +430,9 @@ function handleSelectImage(state, event, img) {
 
     }
     state.newElement.imgSrc = img.url;
-    state.newElement.fileName = img.fileName;
-
-    create_button.disabled = false;
+    state.newElement.image = img;
+    checkImageElementStatus(state)
+    
     name_field.value = img.fileName;
     state.selectedImage = img;
     var img = event.target.cloneNode(true);
@@ -432,7 +445,22 @@ function handleSelectImage(state, event, img) {
 }
 
 function checkImageElementStatus(state) {
-    
+    var create_button = document.getElementById("create-image-element-button")
+    var edit_button = document.getElementById("edit-image-element-button")
+    console.log(state)
+    var element_changed = state.isImageElementChanged();
+    if (element_changed) {
+        edit_button.disabled = false;
+    } else if (!element_changed) {
+        edit_button.disabled = true;
+    }
+
+    var element_complete = state.newElement.isCompleted();
+    if (element_complete) {
+        create_button.disabled = false;
+    } else if (!element_complete) {
+        create_button.disabled = true;
+    } 
 }
 
 

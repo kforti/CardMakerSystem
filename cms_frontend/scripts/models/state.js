@@ -20,37 +20,30 @@ function State() {
         var fontSize = (this.newElement.fontSize === this.currentElement.fontSize);
         var fontStyle = (this.newElement.fontStyle === this.currentElement.fontStyle);
         var textMessage = (this.newElement.textMessage === this.currentElement.textMessage);
-        var yCoord = (this.newElement.yCoord === this.currentElement.yCoord);
-        var xCoord = (this.newElement.xCoord === this.currentElement.xCoord);
 
-        if (fontSize && fontStyle && textMessage && yCoord && xCoord) {return true;} else {return false;}
+        if (fontSize && fontStyle && textMessage) {return true;} else {return false;}
     }
 
-    this.isImageElementChnaged = () => {
-        var fileName = ();
-        var url = ();
+    this.isImageElementChanged = () => {
+        try {
+            var fileName = (this.newElement.image.fileName === this.currentElement.image.fileName);
+            var imgSrc = (this.newElement.imgSrc === this.currentElement.imgSrc);
+            var width = (this.newElement.width === this.currentElement.width);
+            var height = (this.newElement.height === this.currentElement.height);
+        } catch(exception) {
+            return false;
+        }
+
+        if (fileName && imgSrc && width && height) {return true;} else {return false;}
+        
     }
 
-}
+    this.fromJSON = (json) => {
+        this.currentPage = json.currentPage;
+        this.currentCard = json.currentCard;
+        this.currentElement = json.currentElement;
+        this.newElement = json.newElement;
 
-function CreateTextElementState() {
-    this.font = "",
-    this.type = "",
-    this.xCoord = "",
-    this.yCoord = "",
-    this.height = "",
-    this.width = "",
-    this.text = "",
-    this.imageName = ""
-}
+    }
 
-function CreateTextElementState() {
-    this.font = "",
-    this.type = "",
-    this.xCoord = "",
-    this.yCoord = "",
-    this.height = "",
-    this.width = "",
-    this.text = "",
-    this.imageName = ""
 }

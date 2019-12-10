@@ -65,9 +65,16 @@
 
         <!-- Main Content -->
         <div id="content">
-
+            
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <div class="container well row">
+                <input type="file"
+                id="upload-file" name="avatar"
+                accept="image/png, image/jpeg" onchange="handleUploadImage(this)" hidden>
+              <button type="button" class="btn btn-primary" onclick="handleUploadButton()">Upload Image</button>
+              <button type="button" class="btn btn-success mx-5" id="show-card-button"> Show Card</button>
+            </div>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -104,67 +111,42 @@
   
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <a onclick="handlePageChange('0')" class="h5 mb-0 font-weight-bold text-primary">Front Page</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" >Front Page</button>
                 </div>
     
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('1')" class="h5 mb-0 font-weight-bold text-success">Inner Left Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" >Inner Left Page</button>
                   </div>
     
                 <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('2')" class="h5 mb-0 font-weight-bold text-info">Inner Right Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-xl-3 col-md-6 mb-4" >
+                    <button type="button" class="btn btn-info mx-5 page-nav-button">Inner Right Page</button>
                   </div>
     
                 <!-- Pending Requests Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <a onclick="handlePageChange('3')" class="h5 mb-0 font-weight-bold text-warning">Back Page</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-xl-3 col-md-6 mb-4" >
+                    <button type="button" class="btn btn-info mx-5 page-nav-button" id="back page">Back Page</button>
                   </div>
     
               </div>
               <!-- Content Row -->
 
               <div class="container-fluid text-center">
-                  <div class="row py-5">
-                      <div class="col-3"> </div>
-                    <div class="col-6">
-                      <canvas id="canvas" width="600" height="700" style="border:1px solid #000000">
+
+                  <div class="row py-2">
+                    <div class="col-8">
+                      <canvas id="canvas" width="900" height="600" style="border:1px solid #000000">
                       </canvas>
                     </div>
                     
+                   
+                  
+
+                  </div>
+                  
+                    
+                  </div>
               </div>
             </div>
 
