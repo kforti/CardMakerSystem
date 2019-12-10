@@ -31,7 +31,6 @@ public class GetCardHandlerTest {
         
         //delete the created element above with its element id
         String SAMPLE_INPUT_STRING2 = "{\"body\":{\"cardId\": " + cardID + "}}";
-        System.out.println(SAMPLE_INPUT_STRING2);
     	
         GetCardHandler handler2 = new GetCardHandler();
         InputStream input2 = new ByteArrayInputStream(SAMPLE_INPUT_STRING2.getBytes());
