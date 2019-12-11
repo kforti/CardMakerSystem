@@ -168,7 +168,7 @@
                               <div class="input-group-prepend" >
                                 <label class="input-group-text" for="inputGroupSelect01">Font Style</label>
                               </div>
-                              <select class="custom-select" id="font-style-select" onchange="handleFontStyleChange(this)">
+                              <select class="custom-select" id="font-style-select">
                                 <option selected>Choose...</option>
                                 <option value="serif">Serif</option>
                                 <option value="times">Times</option>
@@ -179,7 +179,7 @@
                             <div class="input-group-prepend">
                               <label class="input-group-text" for="inputGroupSelect01">Font Size</label>
                             </div>
-                            <select class="custom-select" id="font-size-select" onchange="handleFontSizeChange(this)">
+                            <select class="custom-select" id="font-size-select">
                               <option selected>Choose...</option>
                               <option value="20px">20</option>
                               <option value="30px">30</option>
@@ -212,13 +212,13 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">Height</span>
                               </div>
-                              <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-height-field">
+                              <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-height">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">Width</span>
                                 </div>
-                                <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-width-field">
+                                <input type="text" class="form-control"aria-describedby="basic-addon1" id="selected-image-width">
                               </div>
                           <div class="card">
                             <div class="card-body" id="selected-image-body">
@@ -237,27 +237,10 @@
                             <h5>Uploaded Images</h5>
                               <div class="h-100 overflow-auto" id="uploaded-images">
                               </div>
-
-
                           </div>
-                          <div class="py-5" style="height: 400px;">
-                              <h5>Event Images</h5>
-                                <div class="h-100 overflow-auto">
-                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap4" onclick="handleSelectImage(this)">
-                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap5" onclick="handleSelectImage(this)">
-                                    <img class="img-fluid optional-image" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap6" onclick="handleSelectImage(this)">
-                            </div>
-  
-  
-                        </div>
                     </div>
-                   
-                  
-
                   </div>
-                  
-                    
-                  </div>
+                </div>
               </div>
             </div>
 

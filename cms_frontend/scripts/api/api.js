@@ -63,6 +63,16 @@ async function deleteCard(card) {
     return json
 }
 
+async function getCard(card) {
+    var body = card.toJSON()
+    var data = await apiCall('POST', '/card/elements', body)
+    console.log(data)
+    card.elements = data["elements"]
+    return card;
+    // var data = JSON.parse(json.body);
+    
+}
+
 async function getElements(card) {
     var body = card.toJSON()
     var data = await apiCall('POST', '/card/elements', body)
