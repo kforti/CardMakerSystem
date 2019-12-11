@@ -1,3 +1,5 @@
+const BASE_PAGES_URL = "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
+
 function State() {
     this.currentPage = null;
     this.currentCard = false;

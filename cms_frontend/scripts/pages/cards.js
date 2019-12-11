@@ -1,4 +1,4 @@
-const BASE_PAGES_URL = "http://127.0.0.1:5500"; // "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
+// const BASE_PAGES_URL = "http://127.0.0.1:5500"; // "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
 
 var STATE = new State();
 

@@ -1,7 +1,12 @@
+// const BASE_PAGES_URL = "http://127.0.0.1:5500";
 // On page load
 var STATE = fetchState()
 
-var STATE = loadCardEditor(STATE);
+if (location.href == BASE_PAGES_URL + "/show-card.html"){
+   
+} else {
+    var STATE = loadCardEditor(STATE);
+}
 
 
 function fetchState() {
@@ -10,7 +15,7 @@ function fetchState() {
     
     var card = new Card()
     state.currentCard = card.fromJSON(JSON.parse(state.currentCard))
-    console.log(state)
+    
     STATE.fromJSON(state)
     console.log(STATE)
     return STATE;
@@ -38,6 +43,7 @@ async function loadCard(state) {
         state.page3 = new Page("3");
     }
     state.currentPage = state.page0;
+    document.getElementById("page-id-field").innerText = "Front Page"
 
     var elements = [];
 
@@ -99,6 +105,7 @@ function setCanvas(state) {
                 stageTextElement(state, element);
                 //console.log("element")
             } else if (element && element.elementType === "image") {
+                console.log(element)
                 stageImageElement(state, element);
 
             }else{console.log("NO Element")}
@@ -137,37 +144,40 @@ async function setElementStage(state) {
     state.newElement = new Element()
     state.newElement.xCoord = 200;
     state.newElement.yCoord = 200;
+    state.newElement.elementType = "text"
     state.newElement.pageType = state.currentPage.id;
     state.newElement.cardId = state.currentCard.cardId;
 
     // Add Event listener to text edit fields and edit, create and delete buttons
     document.getElementById("edit-text-element-button").addEventListener("click", () => {handleEditTextElement(state)})
-    document.getElementById("create-text-element-button").addEventListener("click", (event) => {handleCreateTextElement(state)})
-    document.getElementById("delete-text-element-button").addEventListener("click", (event) => {handleDeleteTextElement(state)})
+    document.getElementById("create-text-element-button").addEventListener("click", (event) => {handleCreateElement(state)})
+    document.getElementById("delete-text-element-button").addEventListener("click", (event) => {handleDeleteElement(state)})
 
     var text_field = document.getElementById("selected-text-message-field")
-    text_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+    text_field.addEventListener("change", (event) => {handleTextMessageChange(state, event)})
 
     var font_style = document.getElementById("font-style-select")
-    font_style.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+    font_style.addEventListener("change", (event) => {handleFontStyleChange(state, event)})
 
     var font_size = document.getElementById("font-size-select")
-    font_size.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+    font_size.addEventListener("change", (event) => {handleFontSizeChange(state, event)})
 
     // Add Event listener to image edit fields and edit, create and delete buttons
-    document.getElementById("edit-image-element-button").addEventListener("click", () => {handleEditImageElement(state)})
-    document.getElementById("create-image-element-button").addEventListener("click", () => {handleCreateImageElement(state)})
-    document.getElementById("delete-image-element-button").addEventListener("click", () => {handleDeleteImageElement(state)})
+    document.getElementById("edit-image-element-button").addEventListener("click", (event) => {handleEditImageElement(state, event)})
+    document.getElementById("create-image-element-button").addEventListener("click", (event) => {handleCreateElement(state, event)})
+    document.getElementById("delete-image-element-button").addEventListener("click", (event) => {handleDeleteElement(state, event)})
     
     var name_field = document.getElementById("selected-image-name")
-    name_field.addEventListener("change", (event) => {handleElementFieldChange(event, state)})
+    name_field.addEventListener("change", (event) => {handleImageNameChange(state, event)})
+    document.getElementById("selected-image-width").addEventListener("change", (event) => {handleImageWidthChange(state, event)})
+    document.getElementById("selected-image-height").addEventListener("change", (event) => {handleImageHeightChange(state, event)})
 
     var images = await getImages()
 
     var img_holder = document.getElementById("uploaded-images")
     for (img of images) {
         var img_element = img.toHTML();
-        img_element.addEventListener("click", (event) => {handleSelectImage(state, event, img)})
+        img_element.addEventListener("click", (event) => {handleSelectImage(state, event)})
         img_holder.appendChild(img_element)
     }
     
@@ -220,6 +230,7 @@ function checkElement(state, x_pos, y_pos) {
 }
 
 function stageTextElement(state, el) {
+    handleTextOption(state)
     state.currentElement = el;
     state.newElement = el;
     document.getElementById("create-text-element-button").disabled = false;
@@ -251,34 +262,42 @@ function stageTextElement(state, el) {
 }
 
 function stageImageElement(state, el) {
+    handleImageOption(state)
+    document.getElementById("create-image-element-button").disabled = false;
+    document.getElementById("delete-image-element-button").disabled = false;
     state.currentElement = el;
     state.newElement = el;
 
     var id_field = document.getElementById("selected-element-id-field")
     var name_field = document.getElementById("selected-image-name-field")
-    var height_field = document.getElementById("selected-image-height-field")
-    var width_field = document.getElementById("selected-image-width-field")
+    var height_field = document.getElementById("selected-image-height")
+    var width_field = document.getElementById("selected-image-width")
     id_field.value = el.elementId;
     name_field.value = el.image.fileName;
-    height_field = el.height;
-    width_field = el.width;
+    height_field.value = el.height;
+    width_field.value = el.width;
 }
 
 function renderElements(elements) {
+    //console.log("ELEMENTS")
+    //console.log(elements)
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (var element of elements) {
-        console.log(element)
+        //console.log(element)
         if (element.elementType == "text") {
             ctx.font = element.textFont;
             var t = ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
         }
-        else if (element.elementType == "image") {
+        if (element.elementType == "image") {
             var imgHTML = element.getImageHTML();
-            console.log(imgHTML);
-            ctx.drawImage(imgHTML, element.xCoord, element.yCoord, element.width, element.height);
+            //console.log(imgHTML)
+            imgHTML.element_x = element.xCoord
+            imgHTML.element_y = element.yCoord
+            imgHTML.onload = (event) => {renderElements(elements)}//ctx.drawImage(event.currentTarget, event.currentTarget.element_x, event.currentTarget.element_y);}
+            ctx.drawImage(imgHTML, element.xCoord, element.yCoord)
         }
         
     }
@@ -296,30 +315,27 @@ async function handleCreateElement(state) {
         state.currentPage.addElement(element)
     }
     renderElements(state.currentPage.elements)
-    console.log(element)
+    console.log(state.currentPage.elements)
 }
 
-function handleEditElement(state) {
-    if (state.currentElement.elementType === "text") {
-        var id_field = document.getElementById("selected-card-id-field").value
-        var text_field = document.getElementById("selected-text-message-field").value
-        var font_style = document.getElementById("font-style-select").value
-        var font_size = document.getElementById("font-size-select").value
-        state.currentElement.cardId = id_field;
-        state.currentElement.textMessage = text_field;
-        state.currentElement.fontStyle = font_style;
-        state.currentElement.fontSize = font_size;
-        state.currentElement.setTextFont();
-        state.currentElement.setWidthHeight();
-        // console.log(font_size)
-        // console.log(id_field)
-        // console.log(text_field)
-        // console.log(font_style)
+function handleEditTextElement(state) {
     
+    var id_field = document.getElementById("selected-element-id-field").value
+    var text_field = document.getElementById("selected-text-message-field").value
+    var font_style = document.getElementById("font-style-select").value
+    var font_size = document.getElementById("font-size-select").value
+    state.currentElement.elementId = id_field;
+    state.currentElement.textMessage = text_field;
+    state.currentElement.fontStyle = font_style;
+    state.currentElement.fontSize = font_size;
+    state.currentElement.setTextFont();
+    state.currentElement.setWidthHeight();
+    updateElement(state.newElement)
+  
+}
 
-    } else if (state.currentElement.elementType === "image") {
-        
-    }
+function handleEditImageElement(state) {
+    updateElement(state.newElement)
 
 }
 
@@ -361,30 +377,39 @@ function handleImageOption(state) {
 
 // Editing Text Element
 
-function handleFontStyleChange(el, state) {
-    state.newElement.fontStyle = el.value;
+function handleFontStyleChange(state, event) {
+    for (el of document.getElementById("font-style-select").children) {
+        if (el.selected) {
+            state.newElement.fontStyle = el.value
+            break
+        }
+    }
+    
+    console.log(state);
     checkTextElementStatus(state)
 }
 
-function handleFontSizeChange(el, state) {
-    state.newElement.fontSize = el.value;
+function handleFontSizeChange(state, event) {
+    console.log(event)
+    state.newElement.fontSize = event.target.value;
     checkTextElementStatus(state)
 }
 
-function handleTextMessageChange(el, state) {
-    state.newElement.textMessage = el.value
+function handleTextMessageChange(state, event) {
+    console.log(state)
+    state.newElement.textMessage = document.getElementById("selected-text-message-field").value;
     checkTextElementStatus(state)
 }
 
 function checkTextElementStatus(state) {
-    var element_changed = state.isElementTextChanged();
+    var element_changed = state.isTextElementChanged();
     if (element_changed) {
         document.getElementById("edit-text-element-button").disabled = false;
     } else if (!element_changed) {
         document.getElementById("edit-text-element-button").disabled = true;
     }
 
-    var element_complete = el.isCompleted();
+    var element_complete = state.newElement.isCompleted();
     if (element_complete) {
         document.getElementById("create-text-element-button").disabled = false;
     } else if (!element_complete) {
@@ -392,25 +417,29 @@ function checkTextElementStatus(state) {
     } 
 }
 // Selecting and Editing images
-function handleImageNameChange(el, state) {
+function handleImageNameChange(state, event) {
     console.log("FILENAMECHANGE")
-    state.newElement.image.fileName = el.value;
+    state.newElement.image.fileName = event.target.value;
     checkImageElementStatus(state)
 }
 
-function handleImageHeightChange(el, state) {
-
+function handleImageHeightChange(state, event) {
+    state.newElement.height = event.target.value;
+    checkImageElementStatus(state)
 }
 
-function handleImageWidthChange(el, state) {
-    
+function handleImageWidthChange(state, event) {
+    state.newElement.width = event.target.value;
+    checkImageElementStatus(state)
 }
 
-function handleSelectImage(state, event, img) {
+function handleSelectImage(state, event) {
     console.log("IMAGE SELECTED");
-    console.log(img);
+    var img = event.target;
     
     var name_field = document.getElementById("selected-image-name")
+    var width_field = document.getElementById("selected-image-width")
+    var height_field = document.getElementById("selected-image-height")
 
     if (state.selectedImage === img) {
         state.selectedImage = null;
@@ -429,11 +458,16 @@ function handleSelectImage(state, event, img) {
         state.selectedImage.style.border = "";
 
     }
-    state.newElement.imgSrc = img.url;
+    state.newElement.imgSrc = img.src;
     state.newElement.image = img;
+    state.newElement.width = img.width;
+    state.newElement.height = img.height;
     checkImageElementStatus(state)
     
-    name_field.value = img.fileName;
+    name_field.value = img.alt;
+    width_field.value =state.newElement.width;
+    height_field.value = state.newElement.height;
+
     state.selectedImage = img;
     var img = event.target.cloneNode(true);
     img.setAttribute("id", "selected-image")
@@ -533,7 +567,10 @@ function handleElementFieldChange(event, state) {
     
 }
 
+function handleDeleteElement(state) {
+    deleteElement(state.currentElement)
+}
 
-function handleShowCard(state) {
-    
+function handleShowCard() {
+    location.href = BASE_PAGES_URL + "/show-card.html";
 }

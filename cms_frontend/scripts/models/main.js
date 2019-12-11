@@ -50,6 +50,7 @@ function Element (element_id, card_id, page_type, element_type, text_message,
     this.fontStyleOptions = ["serif", "times", "Arial"]
     this.selected = false;
 
+    this.fileName;
     this.image;
 
     this.setTextFont = () => {
@@ -79,11 +80,20 @@ function Element (element_id, card_id, page_type, element_type, text_message,
     }
 
     this.inBoundary = (x_pos, y_pos) => {
-        if ((x_pos >= this.xCoord && x_pos <= (this.xCoord + this.width) ) && ( y_pos <= this.yCoord && y_pos >= (this.yCoord - this.height) )) {
-            return true;
-        } else {
-            return false;
+        if (this.elementType === "text") {
+            if ((x_pos >= this.xCoord && x_pos <= (this.xCoord + this.width) ) && ( y_pos <= this.yCoord && y_pos >= (this.yCoord - this.height) )) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (this.elementType === "image"){
+            if ((x_pos >= this.xCoord && x_pos <= (this.xCoord + this.width) ) && ( y_pos >= this.yCoord && y_pos <= (this.yCoord + this.height) )) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        
     }
 
     this.isCompleted = () => {
@@ -138,8 +148,13 @@ function Element (element_id, card_id, page_type, element_type, text_message,
         if (this.elementType != "image"){
             return null;
         }
-        var img = new Image(this.fileName, "", this.imgSrc)
-        return img.toHTML()
+        
+        if (!this.image) {
+            var split_src = this.imgSrc.split("/")
+            var fileName = split_src[split_src.length -1]
+            this.image = new Image(fileName, "", this.imgSrc).toHTML()
+        }
+        return this.image;
 
     }
 
@@ -186,10 +201,11 @@ function Image(file_name, encoding, url) {
     }
 
     this.toHTML = () => {
-        var img_element = document.createElement("img");
-        img_element.src = this.url;
-        img_element.alt = this.fileName;
+        var img_element = document.createElement("IMG");
+        img_element.setAttribute("src", this.url);
+        img_element.setAttribute("alt", this.fileName);
         img_element.className = "img-fluid optional-image";
+        
         return img_element;
     }
 

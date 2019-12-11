@@ -133,15 +133,17 @@
               <!-- Content Row -->
 
               <div class="container-fluid text-center">
-
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Card ID</span>
+                      </div>
+                      <input type="text" class="form-control"aria-describedby="basic-addon1" id="show-card-id-field" onchange="handleCardDisplay(this)">
+                    </div>
                   <div class="row py-2">
                     <div class="col-8">
                       <canvas id="canvas" width="900" height="600" style="border:1px solid #000000">
                       </canvas>
                     </div>
-                    
-                   
-                  
 
                   </div>
                   
@@ -187,6 +189,7 @@
   <script src="scripts/models/state.js"></script>
   <script src="scripts/api/api.js"></script>
   <script src="scripts/pages/elements.js"></script>
+  <script src="scripts/pages/show-card.js"></script>
 
 </body>
 
