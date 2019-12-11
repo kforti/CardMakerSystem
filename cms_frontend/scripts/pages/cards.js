@@ -56,19 +56,18 @@ function handleCardSelector(card) {
     // Add or remove check mark
     
     if (STATE.currentCard && card.selected) {
-        document.getElementById("delete-card-button").disabled = true;
-        document.getElementById("edit-card-button").disabled = true;
-        //delete_button.addEventListener("click", () => { handleDeleteCard(card) })
-        
-        document.getElementById(`checkbox-${card.cardId}`).style.visibility = "hidden"
         card.selected = false;
         STATE.currentCard = false
+
+        document.getElementById("delete-card-button").disabled = true;
+        document.getElementById("edit-card-button").disabled = true;
+        document.getElementById("duplicate-card-button").disabled = true;
+        document.getElementById(`checkbox-${card.cardId}`).style.visibility = "hidden"
 
     } else if (!card.selected) {
         var prev_select_card = STATE.currentCard;
         if (prev_select_card) {
             prev_select_card.selected = false;
-            document.getElementById(`checkbox-${prev_select_card.cardId}`).style.visibility = "hidden"
         } else if (!prev_select_card) {
             var delete_button = document.getElementById("delete-card-button")
             delete_button.disabled = false;
@@ -77,23 +76,13 @@ function handleCardSelector(card) {
         card.selected = true
         STATE.currentCard = card;
 
-        //delete_button.addEventListener("click", () => { handleDeleteCard(card) })
-
+        document.getElementById("delete-card-button").disabled = false;
         document.getElementById("edit-card-button").disabled = false;
-        
+        document.getElementById("duplicate-card-button").disabled = false;
         document.getElementById(`checkbox-${card.cardId}`).style.visibility = "visible"
     }
-    
+
     console.log(JSON.stringify(card))
-}
-
-
-async function handleRefreshCards(){
-    var new_tbody = document.createElement('tbody');
-    new_tbody.setAttribute("id", "data-table-body")
-    var old_tbody = document.getElementById('data-table-body');
-    old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
-    await cardPage();
 }
 
 async function handleDeleteCard(card) {
@@ -125,6 +114,12 @@ async function handleCreateCard() {
     }
     card = await createCard(card);
 
+    // Default back page element
+    e = new Element(0, card.cardId, "back", "text", "This card was developed by Team Republic", "serif", null, 300, 300, 300, 300)
+
+    element = await createElement(e);
+
+
     if (card) {
         STATE.currentCard = card;
         localStorage.setItem('state', JSON.stringify(STATE));
@@ -136,7 +131,19 @@ async function handleCreateCard() {
 async function handleEditCard(state) {
     localStorage.setItem('state', JSON.stringify(state));
     location.href = BASE_PAGES_URL + "/edit-page.html";
-
-
 }
 
+async function handleDuplicateCard(card) {
+    if (card) {
+        console.log(card.cardId)
+        // create new card
+        newCard = await createCard(card)
+
+        // duplicate all elements for new card
+        elements = await getElements(card)
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].cardId = newCard.cardId
+            createElement(elements[i])
+        }
+    }
+}
