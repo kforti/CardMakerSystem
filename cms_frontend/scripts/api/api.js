@@ -144,5 +144,14 @@ async function getImages() {
     }
     console.log(images)
     return images;
-     
+}
+
+async function duplicateCard(card){
+    console.log("duplicate")
+    var body = card.toJSON()
+    var data = await apiCall('POST', '/card/duplicate', body)
+    console.log(data)
+    card.elements = data["elements"]
+    card.cardId = data["cardId"]
+    return card;
 }

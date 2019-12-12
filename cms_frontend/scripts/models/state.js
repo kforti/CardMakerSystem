@@ -1,4 +1,5 @@
-const BASE_PAGES_URL = "http://127.0.0.1:5500"; // "https://card-storage.s3.us-east-2.amazonaws.com/cms_frontend/cms_frontend"
+const BASE_PAGES_URL = "https://card-storage.s3.us-east-2.amazonaws.com/cms_frontend" //"http://127.0.0.1:5500"; // 
+
 function State() {
     this.currentPage = null;
     this.currentCard = false;

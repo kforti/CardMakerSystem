@@ -5,7 +5,7 @@ var STATE = fetchState()
 if (location.href == BASE_PAGES_URL + "/show-card.html"){
    
 } else {
-    var STATE = loadCardEditor(STATE);
+    loadCardEditor(STATE)
 }
 
 
@@ -385,6 +385,14 @@ function handleEditImageElement(state) {
 function handlePageChange(state, event) {
     var page_id = event.srcElement.innerText
     var page_id_field = document.getElementById('page-id-field');
+
+    if (state.currentPage.id === "3" && page_id != "Back Page" && location.href != BASE_PAGES_URL + "/show-card.html") {
+        document.getElementById("text-window").hidden = false;
+    } else if (state.currentPage.id != "3" && page_id === "Back Page" && location.href != BASE_PAGES_URL + "/show-card.html") {
+        document.getElementById("text-window").hidden = true;
+        document.getElementById("image-window").hidden = true;
+    }
+
     if (page_id == "Front Page") {
         state.currentPage = state.page0;
     }
@@ -615,4 +623,5 @@ function handleDeleteElement(state) {
 
 function handleShowCard() {
     location.href = BASE_PAGES_URL + "/show-card.html";
+    localStorage.setItem('state', JSON.stringify(STATE));
 }
