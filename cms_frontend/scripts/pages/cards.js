@@ -64,10 +64,14 @@ function handleCardSelector(card) {
         document.getElementById("duplicate-card-button").disabled = true;
         document.getElementById(`checkbox-${card.cardId}`).style.visibility = "hidden"
 
+        card.selected = false;
+        STATE.currentCard = false
+
     } else if (!card.selected) {
         var prev_select_card = STATE.currentCard;
         if (prev_select_card) {
             prev_select_card.selected = false;
+            document.getElementById(`checkbox-${prev_select_card.cardId}`).style.visibility = "hidden"
         } else if (!prev_select_card) {
             var delete_button = document.getElementById("delete-card-button")
             delete_button.disabled = false;
@@ -115,7 +119,7 @@ async function handleCreateCard() {
     card = await createCard(card);
 
     // Default back page element
-    e = new Element(0, card.cardId, "back", "text", "This card was developed by Team Republic", "serif", null, 300, 300, 300, 300)
+    e = new Element(0, card.cardId, "3", "text", "This card was developed by Team Republic", "serif", null, 300, 300, 300, 300)
 
     element = await createElement(e);
 
@@ -135,15 +139,46 @@ async function handleEditCard(state) {
 
 async function handleDuplicateCard(card) {
     if (card) {
-        console.log(card.cardId)
-        // create new card
-        newCard = await createCard(card)
-
-        // duplicate all elements for new card
-        elements = await getElements(card)
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].cardId = newCard.cardId
-            createElement(elements[i])
+        var recipient = document.getElementById("recipient-field").value;
+        var eventType = document.getElementById("event-field").value;
+        var portrait = document.getElementById("portrait-option");
+        var landscape = document.getElementById("landscape-option");
+        var orientation;
+        if(landscape.checked){
+            orientation = "landscape";
         }
+        else if(portrait.checked) {
+            orientation = "portrait";
+        }
+        
+        console.log(card)
+        // create new card
+        
+        if (eventType != STATE.currentCard.eventType && eventType != "") {
+            card.eventType = eventType;
+        }
+        if (recipient != STATE.currentCard.recipient && recipient != "") {
+            card.recipient = recipient;
+        }
+        if (orientation != STATE.currentCard.orientation && orientation != "") {
+            card.orientation = orientation;
+        }
+        console.log(card)
+        var newCard = await duplicateCard(card)
+        var e = new Element(0, newCard.cardId, "3", "text", "This card was developed by Team Republic", "serif", null, 300, 300, 300, 300)
+        console.log(e)
+        console.log("DONE")
+        await createElement(e);
+        // newCard = await createCard(card)
+
+        // e = new Element(0, card.cardId, "3", "text", "This card was developed by Team Republic", "serif", null, 300, 300, 300, 300)
+        // element = await createElement(e);
+
+        // // duplicate all elements for new card
+        // elements = await getElements(card)
+        // for (var i = 0; i < elements.length; i++) {
+        //     elements[i].cardId = newCard.cardId
+        //     await createElement(elements[i])
+        // }
     }
 }

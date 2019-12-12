@@ -5,7 +5,7 @@ var STATE = fetchState()
 if (location.href == BASE_PAGES_URL + "/show-card.html"){
    
 } else {
-    var STATE = loadCardEditor(STATE);
+    loadCardEditor(STATE)
 }
 
 
@@ -23,8 +23,9 @@ function fetchState() {
 }
 
 async function loadCardEditor(state) {
-    state = await loadCard(state)
     setCanvas(state);
+    state = await loadCard(state)
+
     setPageNav(state);
     state = await buildCardEditor(state)
 }
@@ -101,17 +102,19 @@ function setCanvas(state) {
         try {
             var cursor_position = getCursorPosition(canvas, e);
             element = checkElement(state, cursor_position.x_pos, cursor_position.y_pos);
+            console.log("MOUSE DOWN")
+            console.log(element)
             if (element && element.elementType === "text") {
                 stageTextElement(state, element);
                 //console.log("element")
             } else if (element && element.elementType === "image") {
-                console.log(element)
+                console.log("IMAGE")
                 stageImageElement(state, element);
 
             }else{console.log("NO Element")}
             }
         catch (Exception) {
-            state.mouseDownDone = true;
+            
         }
         state.mouseDownDone = true;
     })
@@ -209,8 +212,8 @@ async function moveElement(state, cursor_pos) {
         console.log("NOT MOVED")
         return
     }
-    element.xCoord = cursor_pos.x_pos;
-    element.yCoord = cursor_pos.y_pos;
+    element.xCoord = Math.round(cursor_pos.x_pos);
+    element.yCoord = Math.round(cursor_pos.y_pos);
     await updateElement(element)
     state.currentPage.updateElement(element)
     renderElements(state.currentPage.elements)
@@ -263,24 +266,27 @@ function stageTextElement(state, el) {
 
 function stageImageElement(state, el) {
     handleImageOption(state)
+    
     document.getElementById("create-image-element-button").disabled = false;
     document.getElementById("delete-image-element-button").disabled = false;
     state.currentElement = el;
     state.newElement = el;
-
+    
     var id_field = document.getElementById("selected-element-id-field")
     var name_field = document.getElementById("selected-image-name-field")
     var height_field = document.getElementById("selected-image-height")
     var width_field = document.getElementById("selected-image-width")
     id_field.value = el.elementId;
-    name_field.value = el.image.fileName;
+    //name_field.value = el.fileName;
     height_field.value = el.height;
     width_field.value = el.width;
+    console.log("HERE")
+    console.log(width_field)
 }
 
 function renderElements(elements) {
-    //console.log("ELEMENTS")
-    //console.log(elements)
+    console.log("ELEMENTS")
+    console.log(elements)
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -288,8 +294,9 @@ function renderElements(elements) {
     for (var element of elements) {
         //console.log(element)
         if (element.elementType == "text") {
+            console.log("drawing element")
             ctx.font = element.textFont;
-            var t = ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
+            ctx.fillText(element.textMessage, element.xCoord, element.yCoord);
         }
         if (element.elementType == "image") {
             var imgHTML = element.getImageHTML();
@@ -297,10 +304,38 @@ function renderElements(elements) {
             imgHTML.element_x = element.xCoord
             imgHTML.element_y = element.yCoord
             imgHTML.onload = (event) => {renderElements(elements)}//ctx.drawImage(event.currentTarget, event.currentTarget.element_x, event.currentTarget.element_y);}
-            ctx.drawImage(imgHTML, element.xCoord, element.yCoord)
+            ctx.drawImage(imgHTML, element.xCoord, element.yCoord, element.width, element.height)
         }
         
     }
+}
+
+function clearTextStage(state){
+    document.getElementById("selected-element-id-field").value = "";
+    document.getElementById("selected-text-message-field").value = "";
+    document.getElementById("font-style-select").value = "";;
+    document.getElementById("font-size-select").value = "";
+    var newElement = new Element()
+    state.newElement.xCoord = 200;
+    state.newElement.yCoord = 200;
+    state.newElement.elementType = "text"
+    state.newElement.pageType = state.currentPage.id;
+    state.newElement.cardId = state.currentCard.cardId;
+    return state;
+}
+
+function clearImageStage(state){
+    document.getElementById("selected-element-id-field").value = "";
+    document.getElementById("selected-image-name").value = "";
+    document.getElementById("selected-image-height").value = "";
+    document.getElementById("selected-image-width").value = "";
+    var newElement = new Element()
+    state.newElement.xCoord = 200;
+    state.newElement.yCoord = 200;
+    state.newElement.elementType = "image"
+    state.newElement.pageType = state.currentPage.id;
+    state.newElement.cardId = state.currentCard.cardId;
+    return state;
 }
 
 ///////////////////////
@@ -309,6 +344,19 @@ function renderElements(elements) {
 
 // creates an element and re-renders the page
 async function handleCreateElement(state) {
+    var page_id = document.getElementById('page-id-field').innerText;
+    if (page_id == "Front Page") {
+        state.newElement.pageType = "0";
+    }
+    else if (page_id == "Inner Left Page") {
+        state.newElement.pageType = "1";
+    }
+    else if (page_id == "Inner Right Page") {
+        state.newElement.pageType = "2";
+    }
+    else if (page_id == "Back Page") {
+        state.newElement.pageType = "3";
+    }
     
     element = await createElement(state.newElement)
     if (element) {
@@ -316,20 +364,15 @@ async function handleCreateElement(state) {
     }
     renderElements(state.currentPage.elements)
     console.log(state.currentPage.elements)
+    if (state.currentElement.elementType === "text"){
+        state = clearTextStage(state);
+    } else if (state.currentElement.elementType === "image"){
+        state = clearImageStage(state);
+    }
+    return state;
 }
 
 function handleEditTextElement(state) {
-    
-    var id_field = document.getElementById("selected-element-id-field").value
-    var text_field = document.getElementById("selected-text-message-field").value
-    var font_style = document.getElementById("font-style-select").value
-    var font_size = document.getElementById("font-size-select").value
-    state.currentElement.elementId = id_field;
-    state.currentElement.textMessage = text_field;
-    state.currentElement.fontStyle = font_style;
-    state.currentElement.fontSize = font_size;
-    state.currentElement.setTextFont();
-    state.currentElement.setWidthHeight();
     updateElement(state.newElement)
   
 }
@@ -342,6 +385,14 @@ function handleEditImageElement(state) {
 function handlePageChange(state, event) {
     var page_id = event.srcElement.innerText
     var page_id_field = document.getElementById('page-id-field');
+
+    if (state.currentPage.id === "3" && page_id != "Back Page" && location.href != BASE_PAGES_URL + "/show-card.html") {
+        document.getElementById("text-window").hidden = false;
+    } else if (state.currentPage.id != "3" && page_id === "Back Page" && location.href != BASE_PAGES_URL + "/show-card.html") {
+        document.getElementById("text-window").hidden = true;
+        document.getElementById("image-window").hidden = true;
+    }
+
     if (page_id == "Front Page") {
         state.currentPage = state.page0;
     }
@@ -510,7 +561,6 @@ function handleUploadImage(el) {
     var img_file = el.files[0];
 
     reader.addEventListener("load", async function () {
-        console.log(reader.result.split(',')[1])
         var image = new Image(img_file.name, reader.result.split(',')[1])
         await uploadImage(image)
 
@@ -573,4 +623,5 @@ function handleDeleteElement(state) {
 
 function handleShowCard() {
     location.href = BASE_PAGES_URL + "/show-card.html";
+    localStorage.setItem('state', JSON.stringify(STATE));
 }

@@ -1,4 +1,4 @@
-const BASE_PAGES_URL = "https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/development";//"https://52pv4r6pe5.execute-api.us-east-2.amazonaws.com/beta"; 
+const BASE_PAGES_URL = "https://card-storage.s3.us-east-2.amazonaws.com/cms_frontend" //"http://127.0.0.1:5500"; // 
 
 function State() {
     this.currentPage = null;
